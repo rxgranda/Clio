@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"  >
+    
+    <f:view contentType="text/html">
+
+    <h:head>
+        
+        <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link href='../../../images/littleTurtle.png' rel='shortcut icon' type='image/png'/>
+                <title>Clio Admin</title>
+        </f:facet>
+        
+        <link type="text/css" rel="stylesheet" href="../../../CSS/styles.css"/>
+        
+        <style type="text/css">
+                .ui-layout-north {
+                    z-index:20 !important;
+                    overflow:visible !important;;
+                }
+
+                .ui-layout-north .ui-layout-unit-content {
+                    overflow:visible !important;
+                }
+                /*.ui-menuitem-text{
+                    font-size: 16px;
+                }*/
+            </style>
+    </h:head>
+        
+    <h:body>
+        
+        <p:layout fullPage="true" >
+             
+            <p:layoutUnit id="top" position="north" >
+                <p:graphicImage id="logo" value="/images/logo.png" />
+
+                <p:megaMenu styleClass="menu">  
+                        
+                        <p:menuitem value="Laboratorios" url="laboratorios.xhtml" styleClass="itemmenu"/>  
+                        <p:menuitem value="Usuarios" url="usuarios.xhtml" styleClass="itemmenu"/>  
+                        <p:menuitem value="Sanciones" url="sanciones.xhtml" styleClass="itemmenu"/>  
+                        <p:submenu label="Reportes" styleClass="itemmenu" style="margin-left: 10px;">
+                            <p:column>
+                                <p:submenu label="Opciones">
+                                    <p:menuitem value="Usuarios-Conexiones" url="reporteConexion.xhtml" style="color: #000000; font-weight: normal; font-size: 12px;"/>
+                                    <p:menuitem value="Conteo de Conexiones" url="reporteConexionCount.xhtml" style="color: #000000; font-weight: normal; font-size: 12px;"/>
+                                </p:submenu>
+                            </p:column>                            
+                        </p:submenu>
+                        <p:submenu label="Administrar" styleClass="itemmenu" style="margin-left: 10px;">
+                            
+                                <p:column>
+                                    <p:submenu label="Opciones">
+                                        <p:menuitem value="PCs" url="../admin/pc.xhtml" style="color: #000000; font-weight: normal; font-size: 12px;"/>
+                                    <p:menuitem value="Laboratorios" url="../admin/laboratoriosAdmin.xhtml" style="color: #000000; font-weight: normal; font-size: 12px;"/>
+                                    </p:submenu>
+                                </p:column>
+                            
+                        </p:submenu>  
+                        <p:menuitem value="Cerrar Sesión" url="/j_spring_security_logout" styleClass="itemmenu"/>                  
+                    </p:megaMenu>
+            </p:layoutUnit>
+
+            <p:layoutUnit id="bottom" position="south" size="60">
+
+            </p:layoutUnit>
+
+            <p:layoutUnit id="left" position="west" size="300" resizable="true" closable="false" collapsible="false" header="Menú Usuarios" minSize="200">
+                <h:form>
+                    <p:growl id="messages" autoUpdate="|true"/>  
+                    <p:panelMenu style="width:290px">  
+                        <p:submenu label="Opciones">  
+                            <!--p:menuitem value="Enviar Mensaje"/-->                            
+                            <p:menuitem oncomplete="dlgNuevo.show()" value="Nuevo Usuario" actionListener="#{usuarioBean.prepararSave()}" update=":formNuevo:dlgNuevo"/> 
+                            <!--p:menuitem value="Buscar"/--> 
+                        </p:submenu>   
+                    </p:panelMenu> 
+                </h:form>
+            </p:layoutUnit>
+
+
+            <p:layoutUnit id="center" position="center" style="border-color: white;">
+
+                <h:form id="formUsuarios">
+                    <p:dataTable var="usuario" value="#{usuarioBean.usuariosList}" emptyMessage="No hay Usuarios Disponibles"
+                         paginator="true" rows="8"  paginatorPosition="bottom"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                    >  
+
+                        <f:facet name="header">  
+                            USUARIOS REGISTRADOS
+                        </f:facet>  
+
+                        <p:column headerText="Matricula" sortBy="#{usuario.usMatricula}" filterBy="#{usuario.usMatricula}">  
+                            <h:outputText value="#{usuario.usMatricula}" />  
+                        </p:column>  
+                        
+                        <p:column headerText="Nombres" sortBy="#{usuario.usNombres}" filterBy="#{usuario.usNombres}" >  
+                            <h:outputText value="#{usuario.usNombres}" />  
+                        </p:column> 
+                        
+                        <p:column headerText="Apellidos" sortBy="#{usuario.usApellidos}" filterBy="#{usuario.usApellidos}" >  
+                            <h:outputText value="#{usuario.usApellidos}" />  
+                        </p:column>
+
+                        <p:column headerText="Usuario ESPOL" sortBy="#{usuario.usUsername}" filterBy="#{usuario.usUsername}">  
+                            <h:outputText value="#{usuario.usUsername}" />  
+                        </p:column>  
+                        
+                        <p:column headerText="Unidad Academica" sortBy="#{usuario.usFacultad}" filterBy="#{usuario.usFacultad}">  
+                            <h:outputText value="#{usuario.usFacultad}" />  
+                        </p:column> 
+                        
+                        
+
+                        <p:column headerText="Opciones" style="width:4%">  
+                            <p:commandButton  update=":formEditar:dlgEditar" oncomplete="dlgEditar.show()"  actionListener="#{usuarioBean.prepararUpdate(usuario.usId)}" icon="ui-icon-pencil" title="Editar"></p:commandButton>  
+                            <p:commandButton update=":formEliminar" actionListener="#{usuarioBean.prepararDelete(usuario.usId)}" oncomplete="dlgEliminar.show()" icon="ui-icon-trash" title="Eliminar"></p:commandButton>                 
+                        </p:column>                   
+                    </p:dataTable> 
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
+        
+        
+        <!-- Formulario de Nuevo Ingreso -->
+                <h:form id="formNuevo">
+                    <p:dialog header="Nuevo Usuario" widgetVar="dlgNuevo" resizable="false" id="dlgNuevo" modal="true">    
+                        <p:growl id="growlNuevo" showDetail="true" sticky="true" />  
+                        <h:panelGrid id="pgNuevo" columns="2" cellpadding="4" style="margin:0 auto;">                          
+                            <h:outputText value="Matricula:" />  
+                            <p:inputMask mask="999999999" id="matriculaIngreso" value="#{usuarioBean.usuario.usMatricula}" required="true" requiredMessage="Matricula Obligatoria"></p:inputMask>
+                            <h:outputText value="Cédula:" />  
+                            <p:inputMask mask="999999999-9" id="cedulaIngreso" value="#{usuarioBean.usuario.usCedula}"></p:inputMask>
+                            <h:outputText value="Nombres:" />  
+                            <p:inputText value="#{usuarioBean.usuario.usNombres}"/>
+                            <h:outputText value="Apellidos:" />  
+                            <p:inputText value="#{usuarioBean.usuario.usApellidos}"/>
+                            <h:outputText value="Usuario ESPOL:" />  
+                            <p:inputText value="#{usuarioBean.usuario.usUsername}"/>
+                            <h:outputText value="Unidad Académica:" />  
+                            <p:selectOneMenu value="#{usuarioBean.usuario.usFacultad}" effect="fold" editable="true">  
+                                <f:selectItem itemLabel="ICM" itemValue="ICM" />  
+                                <f:selectItem itemLabel="ICQ" itemValue="ICQ" />
+                                <f:selectItem itemLabel="ICF" itemValue="ICF" />
+                                <f:selectItem itemLabel="EDCOM" itemValue="EDCOM" />
+                                <f:selectItem itemLabel="FEN" itemValue="FEN" />
+                                <f:selectItem itemLabel="FIMCM" itemValue="FIMCM" />
+                                <f:selectItem itemLabel="FICT" itemValue="FICT" />
+                                <f:selectItem itemLabel="FIMCP" itemValue="FIMCP" />
+                                <f:selectItem itemLabel="FIEC" itemValue="FIEC" />                                
+                            </p:selectOneMenu> 
+                            
+                            <p:commandButton  value="Guardar" update=":formUsuarios,growlNuevo" actionListener="#{usuarioBean.save()}" oncomplete="dlgNuevo.hide()"  icon="ui-icon-disk" ></p:commandButton>  
+                            <p:commandButton value="Cancelar" update=":formUsuarios" oncomplete="dlgNuevo.hide()" icon="ui-icon-close" ></p:commandButton>                             
+                        </h:panelGrid>  
+                    </p:dialog>  
+                </h:form>
+        
+        <!-- Formulario Editar -->
+                <h:form id="formEditar">
+                    <p:dialog header="Editar Usuario" widgetVar="dlgEditar" resizable="false" id="dlgEditar" modal="true">    
+                        <p:growl id="growlEditar" showDetail="true" sticky="true" />  
+                             <h:panelGrid id="pgEditar" columns="2" cellpadding="4" style="margin:0 auto;">                          
+                                <h:outputText value="Matricula:" />  
+                                <p:inputText value="#{usuarioBean.usuario.usMatricula}"/>
+                                <h:outputText value="Cédula:" />  
+                                <p:inputText value="#{usuarioBean.usuario.usCedula}"/>
+                                <h:outputText value="Nombres:" />  
+                                <p:inputText value="#{usuarioBean.usuario.usNombres}"/>
+                                <h:outputText value="Apellidos:" />  
+                                <p:inputText value="#{usuarioBean.usuario.usApellidos}"/>
+                                <h:outputText value="Usuario ESPOL:" />  
+                                <p:inputText value="#{usuarioBean.usuario.usUsername}"/>
+                                <h:outputText value="Unidad Académica:" />  
+                                <p:inputText value="#{usuarioBean.usuario.usFacultad}"/>
+
+
+                                <p:commandButton  value="Actualizar" update=":formUsuarios,growlEditar" actionListener="#{usuarioBean.update()}" oncomplete="dlgEditar.hide()" icon="ui-icon-disk" ></p:commandButton>  
+                                <p:commandButton value="Cancelar" update=":formUsuarios" oncomplete="dlgEditar.hide()" icon="ui-icon-close" ></p:commandButton>                             
+                            </h:panelGrid>  
+                        </p:dialog>  
+                    </h:form> 
+        <!-- Formulario Eliminar -->
+                <h:form id="formEliminar">                          
+                    <p:growl id="growlEliminar" showDetail="true" sticky="true" />            
+                    <p:confirmDialog id="dlgEliminar" message="¿Está seguro que desea eliminar este registro?" header="Confirmación" severity="alert" widgetVar="dlgEliminar">                    
+                        <p:commandButton id="btnSi" value="Si" update=":formUsuarios,growlEliminar"  oncomplete="dlgEliminar.hide()"  
+                                     actionListener="#{usuarioBean.delete()}" />  
+                        <p:commandButton id="btnNo" value="No" onclick="dlgEliminar.hide()" type="button" />                     
+                    </p:confirmDialog>    
+                </h:form> 
+    </h:body>
+    </f:view>
+</html>
+

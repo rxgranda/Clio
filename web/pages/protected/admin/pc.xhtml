@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"  
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    
+    <f:view contentType="text/html">
+
+    <h:head>
+        
+        <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link href='../../../images/littleTurtle.png' rel='shortcut icon' type='image/png'/>
+                <title>Clio Admin</title>
+        </f:facet>
+        
+        <link type="text/css" rel="stylesheet" href="../../../CSS/styles.css"/>
+        
+        <style type="text/css">
+                .ui-layout-north {
+                    z-index:20 !important;
+                    overflow:visible !important;;
+                }
+
+                .ui-layout-north .ui-layout-unit-content {
+                    overflow:visible !important;
+                }
+            </style>
+    </h:head>
+        
+    <h:body>
+        <p:layout fullPage="true" >
+            <p:ajaxStatus onstart="statusDialog.show();"  onsuccess="statusDialog.hide();"/>                
+            <p:dialog modal="true" widgetVar="statusDialog" header="loading.." draggable="false" closable="false">  
+                <p:graphicImage value="../../../images/loading.gif" style="width: 50px; height: 50px " />  
+            </p:dialog>  
+            <p:layoutUnit id="top" position="north" >
+                <p:graphicImage id="logo" value="../../../images/logo.png" />
+
+                <p:megaMenu styleClass="menu">  
+                        
+                        <p:menuitem value="Laboratorios" url="../user/laboratorios.xhtml" styleClass="itemmenu"/>  
+                        <p:menuitem value="Usuarios" url="../user/usuarios.xhtml" styleClass="itemmenu"/>  
+                        <p:menuitem value="Sanciones" url="../user/sanciones.xhtml" styleClass="itemmenu"/>  
+                        <p:submenu label="Reportes" styleClass="itemmenu" style="margin-left: 10px;">
+                            <p:column>
+                                <p:submenu label="Opciones">
+                                    <p:menuitem value="Usuarios-Conexiones" url="../user/reporteConexion.xhtml" style="color: #000000; font-weight: normal; font-size: 12px;"/>
+                                    <p:menuitem value="Conteo de Conexiones" url="../user/reporteConexionCount.xhtml" style="color: #000000; font-weight: normal; font-size: 12px;"/>
+                                </p:submenu>
+                            </p:column>                            
+                        </p:submenu>
+                        <p:submenu label="Administrar" styleClass="itemmenu" style="margin-left: 10px;">
+                            
+                                <p:column>
+                                    <p:submenu label="Opciones">
+                                        <p:menuitem value="PCs" url="../admin/pc.xhtml" style="color: #000000; font-weight: normal; font-size: 12px;"/>
+                                    <p:menuitem value="Laboratorios" url="../admin/laboratoriosAdmin.xhtml" style="color: #000000; font-weight: normal; font-size: 12px;"/>
+                                    </p:submenu>
+                                </p:column>
+                            
+                        </p:submenu>  
+                        <p:menuitem value="Cerrar Sesión" url="/j_spring_security_logout" styleClass="itemmenu"/>                  
+                    </p:megaMenu>
+            </p:layoutUnit>
+
+            <p:layoutUnit id="bottom" position="south" size="60">
+
+            </p:layoutUnit>
+
+            <p:layoutUnit id="left" position="west" size="300" resizable="true" closable="false" collapsible="false" header="Menú PCs" minSize="200">
+                <h:form>
+                    <p:growl id="messages" autoUpdate="|true"/>  
+                    <p:panelMenu style="width:290px">  
+                        <p:submenu label="Opciones">                                                        
+                            <p:menuitem oncomplete="dlgNuevoPC.show()" value="Nueva PC" actionListener="#{pcBean.prepararSave()}" update=":formNuevoPC:dlgNuevoPC"/> 
+                            <!--p:menuitem value="Buscar"/--> 
+                        </p:submenu>   
+                    </p:panelMenu> 
+                </h:form>
+            </p:layoutUnit>
+
+
+            <p:layoutUnit id="center" position="center" style="border-color: white;">
+
+                <h:form id="formPCs">
+                    <p:dataTable var="pc" value="#{pcBean.pcsList}" emptyMessage="No hay PCs Disponibles"
+                         paginator="true" rows="8"  paginatorPosition="bottom"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                    >  
+
+                        <f:facet name="header">  
+                            PCs REGISTRADAS
+                        </f:facet>  
+  
+                        <p:column headerText="IP" sortBy="#{pc.pcIp}" filterBy="#{pc.pcIp}">  
+                            <h:outputText value="#{pc.pcIp}" />  
+                        </p:column> 
+                        
+                        <p:column headerText="Nombre" sortBy="#{pc.pcNombre}" filterBy="#{pc.pcNombre}">  
+                            <h:outputText value="#{pc.pcNombre}" />  
+                        </p:column> 
+                        
+                        <p:column headerText="Estado" sortBy="#{pc.pcEstado}" filterBy="#{pc.pcEstado}">  
+                            <h:outputText value="#{pc.pcEstado}" />  
+                        </p:column> 
+                        
+                        <p:column headerText="Descripción" sortBy="#{pc.pcDescripcion}" filterBy="#{pc.pcDescripcion}">  
+                            <h:outputText value="#{pc.pcDescripcion}" />  
+                        </p:column> 
+                        
+                        <p:column headerText="Laboratorio" sortBy="#{pc.laboratorio.labNombre}" filterBy="#{pc.laboratorio.labNombre}">  
+                            <h:outputText value="#{pc.laboratorio.labNombre}" />  
+                        </p:column>
+                        
+                        <p:column headerText="Opciones" style="width:4%">  
+                            <p:commandButton  update=":formEditarPC:dlgEditarPC" oncomplete="dlgEditarPC.show()"  actionListener="#{pcBean.prepararUpdate(pc.pcId)}" icon="ui-icon-pencil" title="EditarPC"></p:commandButton>  
+                            <p:commandButton update=":formEliminarPC" actionListener="#{pcBean.prepararDelete(pc.pcId)}" oncomplete="dlgEliminarPC.show()" icon="ui-icon-trash" title="EliminarPC"></p:commandButton>                 
+                        </p:column>                   
+                    </p:dataTable> 
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
+        
+        
+        <!-- Formulario de NuevoPC Ingreso -->
+                <h:form id="formNuevoPC">
+                    <p:dialog header="Nueva PC" widgetVar="dlgNuevoPC" resizable="false" id="dlgNuevoPC" modal="true">    
+                        <p:growl id="growlNuevoPC" showDetail="true" sticky="true" />  
+                        <h:panelGrid id="pgNuevoPC" columns="2" cellpadding="4" style="margin:0 auto;">                          
+                            <h:outputText value="IP:" />  
+                            <p:inputMask mask="999.999.999.999" id="ipIngreso" value="#{pcBean.pc.pcIp}" required="true" requiredMessage="IP obligatoria">
+                            </p:inputMask>
+
+                            <h:outputText value="Nombre:" />  
+                            <p:inputText value="#{pcBean.pc.pcNombre}"/>
+                            
+                            <h:outputText value="Estado:" />  
+                            <h:selectOneMenu value="#{pcBean.pc.pcEstado}">
+                                <f:selectItem itemLabel="Habilitada" itemValue="t" />
+                                <f:selectItem itemLabel="Deshabilitada" itemValue="f" /> 
+                            </h:selectOneMenu>
+                                  
+                            <h:outputText value="Descripción:" /> 
+                            <p:inputTextarea value="#{pcBean.pc.pcDescripcion}" rows="8" cols="34" queryDelay="750" minQueryLength="4" />
+                            
+                            <h:outputText value="Laboratorio:" />   
+                            <p:selectOneMenu  value="#{pcBean.iDlab}">   
+                                <c:forEach var="lab" items="#{laboratorioBean.laboratoriosList}" >                                    
+                                        <f:selectItem  itemLabel="#{lab.labNombre}" itemValue="#{lab.labId}" />                                    
+                                </c:forEach>                                
+                            </p:selectOneMenu>
+                            
+                            
+                            <p:commandButton  value="Guardar" update=":formPCs,growlNuevoPC" actionListener="#{pcBean.save()}" oncomplete="dlgNuevoPC.hide()"  icon="ui-icon-disk" ></p:commandButton>  
+                            <p:commandButton value="Cancelar" update=":formPCs" oncomplete="dlgNuevoPC.hide()" icon="ui-icon-close" ></p:commandButton>                             
+                        </h:panelGrid>  
+                    </p:dialog>  
+                </h:form>
+        
+        <!-- Formulario EditarPC -->
+                <h:form id="formEditarPC">
+                    <p:dialog header="EditarPC PC" widgetVar="dlgEditarPC" resizable="false" id="dlgEditarPC" modal="true">    
+                        <p:growl id="growlEditarPC" showDetail="true" sticky="true" />  
+                             <h:panelGrid id="pgEditarPC" columns="2" cellpadding="4" style="margin:0 auto;">                          
+                                <h:outputText value="IP:" />  
+                                <p:inputText id="ipEditarPC" value="#{pcBean.pc.pcIp}" ></p:inputText>
+
+                                <h:outputText value="Nombre:" />  
+                                <p:inputText value="#{pcBean.pc.pcNombre}"/>
+
+                                <h:outputText value="Estado:" />  
+                                <h:selectOneMenu value="#{pcBean.pc.pcEstado}">
+                                    <f:selectItem itemLabel="Habilitada" itemValue="t" />
+                                    <f:selectItem itemLabel="Deshabilitada" itemValue="f" /> 
+                                </h:selectOneMenu>
+
+                                <h:outputText value="Descripción:" /> 
+                                <p:inputTextarea value="#{pcBean.pc.pcDescripcion}" rows="8" cols="34" queryDelay="750" minQueryLength="4" />
+
+                                <h:outputText value="Laboratorio:" />   
+                                <p:selectOneMenu value="#{pcBean.iDlab}">   
+                                    <f:selectItem itemLabel="Seleccione" itemValue="" />  
+                                    <c:forEach var="lab" items="#{laboratorioBean.laboratoriosList}" >
+                                        <f:selectItem itemLabel="#{lab.labNombre}" itemValue="#{lab.labId}" />  
+                                    </c:forEach>     
+                                </p:selectOneMenu>
+                                
+                            
+
+                                <p:commandButton  value="Actualizar" update=":formPCs,growlEditarPC" actionListener="#{pcBean.update()}" oncomplete="dlgEditarPC.hide()" icon="ui-icon-disk" ></p:commandButton>  
+                                <p:commandButton value="Cancelar" update=":formPCs" oncomplete="dlgEditarPC.hide()" icon="ui-icon-close" ></p:commandButton>                             
+                            </h:panelGrid>  
+                        </p:dialog>  
+                    </h:form> 
+        <!-- Formulario EliminarPC -->
+                <h:form id="formEliminarPC">                          
+                    <p:growl id="growlEliminarPC" showDetail="true" sticky="true" />            
+                    <p:confirmDialog id="dlgEliminarPC" message="¿Está seguro que desea EliminarPC este registro?" header="Confirmación" severity="alert" widgetVar="dlgEliminarPC">                    
+                        <p:commandButton id="btnSi" value="Si" update=":formPCs,growlEliminarPC"  oncomplete="dlgEliminarPC.hide()"  
+                                         actionListener="#{pcBean.delete()}" />  
+                        <p:commandButton id="btnNo" value="No" onclick="dlgEliminarPC.hide()" type="button" />                     
+                    </p:confirmDialog>    
+                </h:form> 
+    </h:body>
+    </f:view>
+</html>
+

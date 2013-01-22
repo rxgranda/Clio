@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"  >
+    
+    <f:view contentType="text/html">
+
+    <h:head>
+        
+        <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link href='../../../images/littleTurtle.png' rel='shortcut icon' type='image/png'/>
+                <title>Clio Admin</title>
+        </f:facet>
+        
+        <link type="text/css" rel="stylesheet" href="../../../CSS/styles.css"/>
+        
+        <style type="text/css">
+                .ui-layout-north {
+                    z-index:20 !important;
+                    overflow:visible !important;;
+                }
+
+                .ui-layout-north .ui-layout-unit-content {
+                    overflow:visible !important;
+                }
+                
+            </style>
+
+    </h:head>
+    <h:body>
+        <p:layout fullPage="true" >
+            <p:ajaxStatus onstart="statusDialog.show();"  onsuccess="statusDialog.hide();"/>                
+                <p:dialog modal="true" widgetVar="statusDialog" header="loading.." draggable="false" closable="false">  
+                <p:graphicImage value="images/loading.gif" style="width: 50px; height: 50px " />  
+            </p:dialog>  
+                <p:layoutUnit id="top" position="north" >
+                    <p:graphicImage id="logo" value="/images/logo.png" />
+                    <p:megaMenu styleClass="menu">  
+                        
+                        <p:menuitem value="Laboratorios" url="laboratorios.xhtml" styleClass="itemmenu"/>  
+                        <p:menuitem value="Usuarios" url="usuarios.xhtml" styleClass="itemmenu"/>  
+                        <p:menuitem value="Sanciones" url="sanciones.xhtml" styleClass="itemmenu"/>  
+                        <!--p:menuitem value="Reportes" url="reportes.xhtml" styleClass="itemmenu"/--> 
+                        <p:submenu label="Reportes" styleClass="itemmenu" style="margin-left: 10px;">
+                            <p:column>
+                                <p:submenu label="Opciones">
+                                    <p:menuitem value="Usuarios-Conexiones" url="reporteConexion.xhtml" style="color: #000000; font-weight: normal; font-size: 12px;"/>
+                                    <p:menuitem value="Conteo de Conexiones" url="reporteConexionCount.xhtml" style="color: #000000; font-weight: normal; font-size: 12px;"/>
+                                </p:submenu>
+                            </p:column>                            
+                        </p:submenu>
+                        <p:submenu label="Administrar" styleClass="itemmenu" style="margin-left: 10px;">
+                            
+                                <p:column>
+                                    <p:submenu label="Opciones">
+                                        <p:menuitem value="PCs" url="../admin/pc.xhtml" style="color: #000000; font-weight: normal; font-size: 12px;"/>
+                                    <p:menuitem value="Laboratorios" url="../admin/laboratoriosAdmin.xhtml" style="color: #000000; font-weight: normal; font-size: 12px;"/>
+                                    </p:submenu>
+                                </p:column>
+                            
+                        </p:submenu>  
+                        <p:menuitem value="Cerrar Sesión" url="/j_spring_security_logout" styleClass="itemmenu"/>                  
+                    </p:megaMenu>
+
+                </p:layoutUnit>
+
+                <p:layoutUnit id="bottom" position="south" size="60">
+                    
+                </p:layoutUnit>
+
+                <p:layoutUnit id="left" position="west" size="300" resizable="true" closable="false" collapsible="false" header="Menú Sanciones" minSize="200">
+                    <h:form>  
+              
+                    <p:growl id="messages" autoUpdate="true"/>  
+                    <p:panelMenu style="width:290px">  
+                        <p:submenu label="Opciones">  
+                            <!--p:menuitem oncomplete="dlgNuevo.show()" value="Sancionar" actionListener="#{sancionesBean.prepararSave()}" update=":formNuevo:dlgNuevo"/-->  
+                        </p:submenu>                           
+                    </p:panelMenu> 
+                    </h:form>
+                </p:layoutUnit>
+
+
+            <p:layoutUnit id="center" position="center" style="border-color: white;">
+                    
+                <h:form>
+            <h:outputLabel value="Ver Reportes:" for="comboTipoBuscar" />  
+            <p:selectOneMenu id="comboTipoBuscar" value="#{conexionBean.conexion.tipoBuscar}">
+                <f:selectItem itemLabel="Seleccione Tipo" itemValue="" />  
+                <f:selectItem itemLabel="Término" itemValue="termino" />
+                <f:selectItem itemLabel="Mensuales" itemValue="mes" />
+                <f:ajax render="@form" />
+            </p:selectOneMenu>
+            <br/>
+            <h:panelGroup rendered="#{conexionBean.conexion.tipoBuscar == 'mes'}">
+                <h:outputLabel value="Mes:" for="comboMes" />  
+                <p:selectOneMenu id="comboMes" value="#{conexionBean.conexion.mes}">  
+                    <f:selectItem itemLabel="Seleccione Mes" itemValue="13" />
+                    <f:selectItem itemLabel="Enero" itemValue="01" />  
+                    <f:selectItem itemLabel="Febrero" itemValue="02" />
+                    <f:selectItem itemLabel="Marzo" itemValue="03" />  
+                    <f:selectItem itemLabel="Abril" itemValue="04" /> 
+                    <f:selectItem itemLabel="Mayo" itemValue="05" />  
+                    <f:selectItem itemLabel="Junio" itemValue="06" /> 
+                    <f:selectItem itemLabel="Julio" itemValue="07" /> 
+                    <f:selectItem itemLabel="Agosto" itemValue="08" />  
+                    <f:selectItem itemLabel="Septiembre" itemValue="09" />
+                    <f:selectItem itemLabel="Octubre" itemValue="10" /> 
+                    <f:selectItem itemLabel="Noviembre" itemValue="11" /> 
+                    <f:selectItem itemLabel="Diciembre" itemValue="12" />  
+                    <f:selectItem itemLabel="Todos los Mes" itemValue="0" />
+                    <f:ajax render=":frmLaboratorios" />
+                </p:selectOneMenu> 
+
+                <h:outputLabel value="Año:" for="comboAnio" />  
+                <p:selectOneMenu id="comboAnio" value="#{conexionBean.conexion.anio}">  
+                    <f:selectItem itemLabel="Seleccione Año" itemValue="#{timeBean.yearNow()}"/>  
+                    <f:selectItems value="#{timeBean.listAnios}" var="termino" itemLabel="#{anio}" itemValue="#{anio}"/> 
+                    <f:ajax render=":frmLaboratorios" />
+                </p:selectOneMenu> 
+            </h:panelGroup>
+
+            <h:panelGroup rendered="#{conexionBean.conexion.tipoBuscar == 'termino'}">
+                <h:outputLabel value="Término:" for="comboTermino" />  
+                <p:selectOneMenu id="comboTermino" value="#{conexionBean.conexion.termino}">  
+                    <f:selectItem itemLabel="Seleccione Término" itemValue=" " />  
+                    <f:selectItems value="#{timeBean.listaTerminos}" var="termino" itemLabel="#{termino}" itemValue="#{termino}"/>  
+                    <f:ajax render=":frmLaboratorios" />
+                </p:selectOneMenu> 
+            </h:panelGroup>
+        </h:form>
+
+        <!-- DataTable-->  
+        <h:form id="frmLaboratorios">
+            <p:dataTable id="tblConexion" var="conexion" value="#{conexionBean.conexionsListReporte}" emptyMessage="No hay Conexiones Disponibles"
+                         paginator="true" rows="10"  paginatorPosition="bottom"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                         rowsPerPageTemplate="5,10,15" >  
+                <f:facet name="header" >  
+                    Reporte De Conexiones
+                </f:facet>   
+                <p:column headerText="Usuario" >  
+                    <f:facet name="header">  
+                        <h:outputText value="Usuario" />  
+                    </f:facet> 
+                    <h:outputText value="#{conexion.usuario}" />  
+                </p:column> 
+
+                <p:column headerText="Fecha">  
+                    <f:facet name="header">  
+                        <h:outputText value="Fecha" />  
+                    </f:facet> 
+                    <h:outputText value="#{conexion.inicio}" />  
+                </p:column>  
+
+                <p:column headerText="laboratorio">  
+                    <f:facet name="header">  
+                        <h:outputText value="laboratorio" />  
+                    </f:facet> 
+                    <h:outputText value="#{conexion.pc.laboratorio}" />  
+                </p:column>  
+
+            </p:dataTable>
+
+            <h:panelGrid columns="2">  
+                <p:panel header="Exportar todos los Datos">  
+                    <h:commandLink>  
+                        <p:graphicImage value="../../../img/fileIcon/pdf.png" />  
+                        <p:dataExporter type="pdf" target="tblConexion" fileName="Reporte #{conexionBean.conexion.mesToString}_#{conexionBean.conexion.anio}"  preProcessor="#{formatoDocBean.preProcessPDF}"/>  
+                    </h:commandLink>  
+
+                    <h:commandLink>  
+                        <p:graphicImage value="../../../img/fileIcon/csv.png" />  
+                        <p:dataExporter type="csv" target="tblConexion" fileName="Reporte #{conexionBean.conexion.mesToString}_#{conexionBean.conexion.anio}" />  
+                    </h:commandLink>  
+
+                    <h:commandLink>  
+                        <p:graphicImage value="../../../img/fileIcon/xml.png" />  
+                        <p:dataExporter type="xml" target="tblConexion" fileName="Reporte #{conexionBean.conexion.mesToString}_#{conexionBean.conexion.anio}" />  
+                    </h:commandLink>  
+                </p:panel>  
+
+                <p:panel header="Exportar solo esta Página">  
+                    <h:commandLink>  
+                        <p:graphicImage value="../../../img/fileIcon/pdf.png" /> 
+                        <p:dataExporter type="pdf" target="tblConexion" fileName="Reporte #{conexionBean.conexion.mesToString}_#{conexionBean.conexion.anio}" pageOnly="true"   preProcessor="#{formatoDocBean.preProcessPDF}"/>  
+                    </h:commandLink>  
+
+                    <h:commandLink>  
+                        <p:graphicImage value="../../../img/fileIcon/csv.png" />   
+                        <p:dataExporter type="csv" target="tblConexion" fileName="Reporte #{conexionBean.conexion.mesToString}_#{conexionBean.conexion.anio}" pageOnly="true"/>  
+                    </h:commandLink>  
+
+                    <h:commandLink>  
+                        <p:graphicImage value="../../../img/fileIcon/xml.png" />   
+                        <p:dataExporter type="xml" target="tblConexion" fileName="Reporte #{conexionBean.conexion.mesToString}_#{conexionBean.conexion.anio}" pageOnly="true"/>  
+                    </h:commandLink>  
+                </p:panel>  
+            </h:panelGrid>  
+        </h:form>
+               
+            </p:layoutUnit>
+        </p:layout>
+
+        
+             <!-- Formulario de Nueva Sancion -->
+
+            <!-- Formulario Editar -->
+             
+            <!-- Formulario Quitar -->
+                 
+    </h:body>
+    </f:view>
+
+</html>

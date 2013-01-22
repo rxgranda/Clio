@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+    <http use-expressions="true" auto-config="true" >       
+          <intercept-url pattern="/master/**" access="hasRole('ROLE_ADMIN')" />
+          <intercept-url pattern="/faces/pages/protected/admin/**" access="hasRole('ROLE_ADMIN')" />
+          <intercept-url pattern="/faces/pages/protected/user/**" access="hasRole('ROLE_USER') OR hasRole('ROLE_ADMIN')" />
+          <intercept-url pattern="/faces/pages/protected/**" access="hasRole('ROLE_USER') OR hasRole('ROLE_ADMIN')" />
+          <!--<intercept-url pattern="/pages/public/**" access="permitAll" /> 
+          <intercept-url pattern="/**" access="permitAll" />        -->
+          <form-login login-page="/login.xhtml"  default-target-url="/faces/pages/protected/user/laboratorios.xhtml"  authentication-failure-url="/loginError.xhtml" />
+          <logout logout-success-url="/login.xhtml" />
+    </http>
+    
+ <!--   
+ <http use-expressions="true">
+     
+        <intercept-url pattern="/**" access="permitAll" />
+        <form-login />
+    </http>-->
+ 
+   
+    <authentication-manager>
+        <authentication-provider  >
+             <jdbc-user-service id="userService" data-source-ref="dataSource" 
+                           users-by-username-query="
+                              SELECT us_username AS username, us_password AS password, us_enabled AS enabled  FROM clio.usuario where us_username=?" 
+                           authorities-by-username-query="
+                              SELECT u.us_username AS username, ur.ru_authority AS authority 
+                              FROM clio.usuario u, clio.roles_usuarios ur 
+                              where u.us_id = ur.us_id and u.us_username=?" 
+                             />
+            <!--<user-service>
+                <user name="rod" password="koala" authorities="ROLE_ADMIN" />
+                <user name="aa" password="aa" authorities="ROLE_ADMIN" />
+                <user name="scott" password="wombat" authorities="user" />
+                <user name="peter" password="opal" authorities="user" />
+            </user-service>-->
+        </authentication-provider>
+    </authentication-manager>
+</beans:beans>  

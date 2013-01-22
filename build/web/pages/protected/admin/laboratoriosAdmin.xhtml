@@ -1,0 +1,294 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"    
+      
+      xmlns:c="http://java.sun.com/jsp/jstl/core">    
+    <f:view contentType="text/html">
+        <h:head>        
+            <f:facet name="first">
+                    <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+                    <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                    <link href='../../../images/littleTurtle.png' rel='shortcut icon' type='image/png'/>
+                    <title>Clio Admin</title>
+            </f:facet>        
+            <link type="text/css" rel="stylesheet" href="../../../CSS/styles.css"/>             
+            <style type="text/css">
+                    .ui-layout-north {
+                        z-index:20 !important;
+                        overflow:visible !important;;
+                    }
+
+                    .ui-layout-north .ui-layout-unit-content {
+                        overflow:visible !important;
+                    }
+                </style>
+                <style type="text/css">
+              .slot {
+				background:#333333; 
+				width:120px; 
+				height:140px;
+				display:block;
+			}
+
+            .slotActive {
+				background: #FFCC00;
+			}
+               
+            </style>
+            <script type="text/javascript">  
+        function handleDrop(event, ui) {  
+            var draggable = ui.draggable,   
+            helper = ui.helper,   
+            position = ui.position,   
+            offset = ui.offset;  
+        }  
+</script>
+        </h:head>
+
+        <h:body>    
+            <p:ajaxStatus onstart="statusDialog.show();"  onsuccess="statusDialog.hide();"/>                
+                <p:dialog modal="true" widgetVar="statusDialog" header="loading.." draggable="false" closable="false">  
+                <p:graphicImage value="../../../images/loading.gif" style="width: 50px; height: 50px " />    
+            </p:dialog>  
+            <p:layout fullPage="true"  >
+                    <p:layoutUnit id="top" position="north" >
+                        <p:graphicImage id="logo" value="../../../images/logo.png" />                    
+                        <p:megaMenu styleClass="menu"> 
+                            <p:menuitem value="Laboratorios" url="../user/laboratorios.xhtml" styleClass="itemmenu"/>  
+                            <p:menuitem value="Usuarios" url="../user/usuarios.xhtml" styleClass="itemmenu"/>  
+                            <p:menuitem value="Sanciones" url="../user/sanciones.xhtml" styleClass="itemmenu"/>  
+                            <p:submenu label="Reportes" styleClass="itemmenu" style="margin-left: 10px;">
+                            <p:column>
+                                <p:submenu label="Opciones">
+                                    <p:menuitem value="Usuarios-Conexiones" url="../user/reporteConexion.xhtml" style="color: #000000; font-weight: normal; font-size: 12px;"/>
+                                    <p:menuitem value="Conteo de Conexiones" url="../user/reporteConexionCount.xhtml" style="color: #000000; font-weight: normal; font-size: 12px;"/>
+                                </p:submenu>
+                            </p:column>                            
+                        </p:submenu>  
+                            <p:submenu label="Administrar" styleClass="itemmenu" style="margin-left: 10px; font-size: 16px;">
+
+                                    <p:column>
+                                        <p:submenu label="Opciones">
+                                            <p:menuitem value="PCs" url="../admin/pc.xhtml" style="color: #000000; font-weight: normal; font-size: 12px;"/>
+                                        <p:menuitem value="Laboratorios" url="../admin/laboratoriosAdmin.xhtml" style="color: #000000; font-weight: normal; font-size: 12px;"/>
+                                        </p:submenu>
+                                    </p:column>
+
+                            </p:submenu>  
+                            <p:menuitem value="Cerrar Sesión" url="/j_spring_security_logout" styleClass="itemmenu"/>                  
+                        </p:megaMenu> 
+                    </p:layoutUnit>
+
+                    <p:layoutUnit id="bottom" position="south" size="60">
+
+                    </p:layoutUnit>
+
+                    <p:layoutUnit  id="left" position="west" size="300" resizable="true" closable="false" collapsible="false" header="Menú Laboratorio" minSize="200">
+                        <h:form id="sideMenu" >  
+
+                            <p:growl id="messages" autoUpdate="true"/>  
+                             <p:panelMenu id="panelMenu" style="width:290px">  
+                                 
+                                 <c:forEach items="${laboratorioBean.laboratoriosList}" var="lab"> 
+                                     <p:submenu label="#{lab.labNombre}">                                                                          
+                                         <p:menuitem value="Administrar Laboratorio"  update="@form,:formDrag,:sideMenu:panelMenu"  oncomplete="jQuery('#formDrag2').show();jQuery('#formDrag').show();jQuery('#frmLaboratorios').hide();" >
+                                            <f:actionListener binding="#{laboratorioBean.prepararUpdate(lab.labId)}" />
+                                            <f:actionListener binding="#{dragBean.selectedPcEmpty()}"/>
+                                         </p:menuitem>                                            
+                                     </p:submenu>                                        
+                                 </c:forEach>                                                                                                                                     
+                                  
+                                 <p:submenu label="Opciones" >  
+                                     <p:menuitem value="Ver Laboratorios" onclick="jQuery('#formDrag2').hide();jQuery('#formDrag').hide();jQuery('#frmLaboratorios').show();"/>
+                                     <p:menuitem value="Crear Laboratorios" oncomplete="dlgNuevo.show()" actionListener="#{laboratorioBean.prepararSave()}" update=":frmNuevo:dlgNuevo"/>                                             
+                                 </p:submenu>  
+                             </p:panelMenu> 
+
+                        </h:form>
+                    </p:layoutUnit>
+
+
+                    <p:layoutUnit id="center" position="center" style="border-color: white;">
+                             
+                        <!-- DataTable-->  
+                        <h:form id="frmLaboratorios"  >
+                            <p:outputLabel style="font-size: 30px; display: block; text-align: center; margin-top: 20px; margin-bottom:  20px;">Resumen de Laboratorios</p:outputLabel>
+                       
+                            <p:dataTable var="lab" value="#{laboratorioBean.laboratoriosList}" emptyMessage="No hay Laboratorios Disponibles"
+                                 paginator="true" rows="10"  paginatorPosition="bottom"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                 rowsPerPageTemplate="5,10,15"  >  
+
+                                <p:column headerText="Nombre" >  
+                                    <h:outputText value="#{lab.labNombre}" />  
+                                </p:column> 
+
+                                <p:column headerText="Puerta de Enlance">  
+                                    <h:outputText value="#{lab.labPuertaenlace}" />  
+                                </p:column>  
+                                <p:column headerText="Mascara Subred">  
+                                    <h:outputText value="#{lab.labMascarasubred}" />  
+                                </p:column>  
+                                <p:column headerText="Estado">  
+                                <h:outputText value="#{lab.labEstado}" />  
+                                </p:column>  
+                                <p:column headerText="Descripcion">  
+                                    <h:outputText value="#{lab.labDescripcion}" />  
+                                </p:column>  
+                                <p:column headerText="Columna">  
+                                    <h:outputText value="#{lab.labCantColumna}" />  
+                                </p:column>  
+                                <p:column headerText="Fila">  
+                                    <h:outputText value="#{lab.labCantFila}" />  
+                                </p:column>                   
+                                <p:column headerText="Opciones" style="width:4%">  
+                                    <p:commandButton  update=":frmEditar:dlgEditar" oncomplete="dlgEditar.show()"  actionListener="#{laboratorioBean.prepararUpdate(lab.labId)}" icon="ui-icon-pencil" title="Editar"></p:commandButton>  
+                                    <p:commandButton update=":frmEliminar" actionListener="#{laboratorioBean.prepararDelete(lab.labId)}" oncomplete="dlgEliminar.show()" icon="ui-icon-trash" title="Eliminar"></p:commandButton>                 
+                                </p:column>                   
+                            </p:dataTable> 
+                        </h:form>
+                       
+                        <h:form id="formDrag2" style="display:none">
+                            <p:commandButton update=":formDrag2,:sideMenu"   actionListener="#{dragBean.guardarEdicion()}" value="Guardar Edición" ></p:commandButton>                                                         
+                            <p:growl id="growlDrag2" showDetail="true"/>
+                        </h:form> 
+                        
+                        <h:form id="formDrag" prependId="false" style="display:none">  
+  
+                            <p:growl id="growlDrag" showDetail="true"/>  
+
+                            <h:panelGrid columns="2" columnClasses="lineup,squad">  
+
+                                <p:panel header="Computadores Disponibles">  
+                                    <p:dataGrid id="availablePlayers" value="#{dragBean.pcByLab()}" var="pcItem" columns="4">  
+                                        <p:column>
+                                            <p:panelGrid columns="1" id="pcItem" style="zoom: 1;filter: alpha(opacity=75);opacity: 0.75; " >
+                                                <p:outputPanel  >  
+                                                    <p:graphicImage alt="#{pcItem.pcNombre}" value="../../../img/pc/PicOriginal.png" />    
+                                                </p:outputPanel>
+                                                 <p:outputPanel   > 
+                                            <p:outputLabel for="pcItem" value="#{pcItem.pcNombre}" style="background: none"/>
+                                            </p:outputPanel>
+                                            </p:panelGrid>
+                                            <p:draggable for="pcItem" revert="true" scope="dropArea" stack=".playerImage"/>  
+
+                                        </p:column>  
+                                    </p:dataGrid>  
+                                </p:panel>  
+
+                                    <h:panelGroup>
+                                        <c:if test="${laboratorioBean.laboratorio.labCantFila!= null}" >
+                                            <p:outputLabel>#{laboratorioBean.laboratorio.labNombre}</p:outputLabel>
+                                                        <c:forEach var="i" begin="1" end="${laboratorioBean.laboratorio.labCantFila}" step="1">   
+                                                            <h:panelGrid columns="${laboratorioBean.laboratorio.labCantColumna}" style="margin-left:40px;">  
+                                                                <c:forEach var="j" begin="1" end="${laboratorioBean.laboratorio.labCantColumna}" step="1">  
+                                                                    <p:outputPanel id="j#{i}j#{j}" styleClass="slot" >  
+                                                                            <p:droppable  tolerance="fit" activeStyleClass="slotActive" scope="dropArea" onDrop="handleDrop" datasource="availablePlayers">  
+                                                                            <p:ajax listener="#{dragBean.onDrop}" update="growlDrag" />  
+
+                                                                            </p:droppable>  
+                                                                    </p:outputPanel> 
+                                                                </c:forEach>
+                                                            </h:panelGrid>                                      
+                                                        </c:forEach>
+                                        </c:if>
+                                    </h:panelGroup>                          
+                            </h:panelGrid>       
+                        </h:form> 
+                        
+                    </p:layoutUnit> 
+
+            </p:layout>
+            
+            <!-- Formulario de Nuevo Ingreso -->
+        <h:form id="frmNuevo">
+            <p:dialog header="Nuevo Laboratorio" widgetVar="dlgNuevo" resizable="false" id="dlgNuevo" modal="true">    
+                <p:growl id="growlNuevo" showDetail="true" sticky="true" />  
+                <h:panelGrid id="pgNuevo" columns="2" cellpadding="4" style="margin:0 auto;">                          
+                    <h:outputText value="Nombre de Laboratorio: *" />  
+                    <p:inputText  value="#{laboratorioBean.laboratorio.labNombre}" required="true" requiredMessage="requerido"/>
+                    <h:outputText value="Puerta de Enlace: *" />  
+                     <p:inputMask mask="999.999.999.999" value="#{laboratorioBean.laboratorio.labPuertaenlace}" required="true" requiredMessage="Nombre requerido">
+                     </p:inputMask>                   
+                    <h:outputText value="Mascara Subred:" />  
+                     <p:inputMask mask="999.999.999.999" value="#{laboratorioBean.laboratorio.labMascarasubred}" required="true" requiredMessage="Macara Subred requerida">
+                     </p:inputMask>
+                      <h:outputText value="DNS Preferido:" /> 
+                        <p:inputMask mask="999.999.999.999" value="#{laboratorioBean.laboratorio.labDnspreferido}"  >
+                     </p:inputMask>
+                    
+                    <h:outputText value="Estado: *" />  
+                    <p:selectOneMenu value="#{laboratorioBean.laboratorio.labEstado}" required=" true" requiredMessage="Estado requerido">  
+                        <f:selectItem itemLabel="Select One" itemValue="" />  
+                        <f:selectItem itemLabel="Habilitado" itemValue="t" />  
+                        <f:selectItem itemLabel="Deshabilitado" itemValue="f" />                             
+                    </p:selectOneMenu>                         
+                    <h:outputText value="Descripcion:" />  
+                    <p:inputTextarea   value="#{laboratorioBean.laboratorio.labDescripcion}" />
+                    <h:outputText value="Columnas: *" />  
+                    <p:inputText value="#{laboratorioBean.laboratorio.labCantColumna}" required="true" requiredMessage="Filas requeridas"/> 
+                    <h:outputText value="Filas:*" />  
+                    <p:inputText  value="#{laboratorioBean.laboratorio.labCantFila}" required="true" requiredMessage="Columnas Requeridas"/>  
+                    <h:outputText value="* Campos Requeridos "  style="color: red"></h:outputText>  
+                    <br />
+                    <p:commandButton  value="Guardar" update=":frmLaboratorios,growlNuevo" actionListener="#{laboratorioBean.save()}" oncomplete="dlgNuevo.hide()" icon="ui-icon-search" ></p:commandButton>  
+                    <p:commandButton value="Cancelar" update=":frmLaboratorios" oncomplete="dlgNuevo.hide()" icon="ui-icon-search" ></p:commandButton>                             
+                </h:panelGrid>  
+            </p:dialog>  
+        </h:form>                                        
+        
+        
+        <!-- Formulario Editar -->
+        <h:form id="frmEditar">
+            <p:dialog header="Editar Laboratorio" widgetVar="dlgEditar" resizable="false" id="dlgEditar" modal="true">    
+                <p:growl id="growlEditar" showDetail="true" sticky="true" />  
+                     <h:panelGrid id="pgEditar" columns="2" cellpadding="4" style="margin:0 auto;">                          
+                        <h:outputText value="Nombre de Laboratorio: *" />  
+                    <p:inputText  value="#{laboratorioBean.laboratorio.labNombre}" required="true" requiredMessage="requerido"/>
+                    <h:outputText value="Puerta de Enlace: *" />  
+                     <p:inputMask mask="999.999.999.999" value="#{laboratorioBean.laboratorio.labPuertaenlace}" required="true" requiredMessage="Nombre requerido">
+                     </p:inputMask>                   
+                    <h:outputText value="Mascara Subred:" />  
+                     <p:inputMask mask="999.999.999.999" value="#{laboratorioBean.laboratorio.labMascarasubred}" required="true" requiredMessage="Macara Subred requerida">
+                     </p:inputMask>
+                      <h:outputText value="DNS Preferido:" /> 
+                        <p:inputMask mask="999.999.999.999" value="#{laboratorioBean.laboratorio.labDnspreferido}"  >
+                     </p:inputMask>
+                    
+                    <h:outputText value="Estado: *" />  
+                    <p:selectOneMenu value="#{laboratorioBean.laboratorio.labEstado}" required=" true" requiredMessage="Estado requerido">  
+                        <f:selectItem itemLabel="Select One" itemValue="" />  
+                        <f:selectItem itemLabel="Habilitado" itemValue="t" />  
+                        <f:selectItem itemLabel="Deshabilitado" itemValue="f" />                             
+                    </p:selectOneMenu>                         
+                    <h:outputText value="Descripcion:" />  
+                    <p:inputTextarea   value="#{laboratorioBean.laboratorio.labDescripcion}" />
+                    <h:outputText value="Columnas: *" />  
+                    <p:inputText value="#{laboratorioBean.laboratorio.labCantColumna}" required="true" requiredMessage="Filas requeridas"/> 
+                    <h:outputText value="Filas:*" />  
+                    <p:inputText  value="#{laboratorioBean.laboratorio.labCantFila}" required="true" requiredMessage="Columnas Requeridas"/>  
+                    <h:outputText value="* Campos Requeridos "  style="color: red"></h:outputText>  
+                    <br/> <p:commandButton  value="Actualizar" update=":frmLaboratorios,growlEditar" actionListener="#{laboratorioBean.update()}" oncomplete="dlgEditar.hide()" icon="ui-icon-search" ></p:commandButton>  
+                        <p:commandButton value="Cancelar" update=":frmLaboratorios" oncomplete="dlgEditar.hide()" icon="ui-icon-search" ></p:commandButton>                             
+                    </h:panelGrid>  
+                </p:dialog>  
+            </h:form>   
+        
+            <!-- Formulario Eliminar -->
+            <h:form id="frmEliminar">                          
+                <p:growl id="growlEliminar" showDetail="true" sticky="true" />            
+                <p:confirmDialog id="dlgEliminar" message="¿Está seguro que desea eliminar este registro?" header="Confirmación" severity="alert" widgetVar="dlgEliminar">                    
+                    <p:commandButton id="btnSi" value="Si" update=":frmLaboratorios,growlEliminar"  oncomplete="dlgEliminar.hide()"  
+                                 actionListener="#{laboratorioBean.delete()}" />  
+                    <p:commandButton id="btnNo" value="No" onclick="dlgEliminar.hide()" type="button" />                     
+                </p:confirmDialog>    
+            </h:form>          
+            </h:body>
+    </f:view>
+</html>
+

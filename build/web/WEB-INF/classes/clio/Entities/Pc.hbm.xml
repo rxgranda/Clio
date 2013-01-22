@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 21-ene-2013 22:10:27 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="clio.Entities.Pc" table="pc" catalog="clio">
+        <id name="pcId" type="java.lang.Long">
+            <column name="pc_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="laboratorio" class="clio.Entities.Laboratorio" fetch="select">
+            <column name="pc_lab_id" />
+        </many-to-one>
+        <property name="pcNombre" type="string">
+            <column name="pc_nombre" length="100" />
+        </property>
+        <property name="pcEstado" type="string">
+            <column name="pc_estado" length="1" />
+        </property>
+        <property name="pcDescripcion" type="string">
+            <column name="pc_descripcion" length="500" />
+        </property>
+        <property name="pcIp" type="string">
+            <column name="pc_ip" length="16" />
+        </property>
+        <property name="pcFila" type="java.lang.Integer">
+            <column name="pc_fila" />
+        </property>
+        <property name="pcColumna" type="java.lang.Integer">
+            <column name="pc_columna" />
+        </property>
+        <set name="conexions" inverse="true">
+            <key>
+                <column name="pc_id" />
+            </key>
+            <one-to-many class="clio.Entities.Conexion" />
+        </set>
+    </class>
+</hibernate-mapping>

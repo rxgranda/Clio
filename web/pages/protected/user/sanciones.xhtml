@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"  >
+    
+    <f:view contentType="text/html">
+
+    <h:head>
+        
+        <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link href='../../../images/littleTurtle.png' rel='shortcut icon' type='image/png'/>
+                <title>Clio Admin</title>
+        </f:facet>
+        
+        <link type="text/css" rel="stylesheet" href="../../../CSS/styles.css"/>
+        
+        <style type="text/css">
+                .ui-layout-north {
+                    z-index:20 !important;
+                    overflow:visible !important;;
+                }
+
+                .ui-layout-north .ui-layout-unit-content {
+                    overflow:visible !important;
+                }
+                
+            </style>
+
+    </h:head>
+    <h:body>
+        
+        <p:layout fullPage="true" >
+            
+                <p:layoutUnit id="top" position="north" >
+                    <p:graphicImage id="logo" value="/images/logo.png" />
+                    <p:megaMenu styleClass="menu">  
+                        
+                        <p:menuitem value="Laboratorios" url="laboratorios.xhtml" styleClass="itemmenu"/>  
+                        <p:menuitem value="Usuarios" url="usuarios.xhtml" styleClass="itemmenu"/>  
+                        <p:menuitem value="Sanciones" url="sanciones.xhtml" styleClass="itemmenu"/>  
+                        <p:submenu label="Reportes" styleClass="itemmenu" style="margin-left: 10px;">
+                            <p:column>
+                                <p:submenu label="Opciones">
+                                    <p:menuitem value="Usuarios-Conexiones" url="reporteConexion.xhtml" style="color: #000000; font-weight: normal; font-size: 12px;"/>
+                                    <p:menuitem value="Conteo de Conexiones" url="reporteConexionCount.xhtml" style="color: #000000; font-weight: normal; font-size: 12px;"/>
+                                </p:submenu>
+                            </p:column>                            
+                        </p:submenu>  
+                        <p:submenu label="Administrar" styleClass="itemmenu" style="margin-left: 10px;">
+                            
+                                <p:column>
+                                    <p:submenu label="Opciones">
+                                        <p:menuitem value="PCs" url="../admin/pc.xhtml" style="color: #000000; font-weight: normal; font-size: 12px;"/>
+                                    <p:menuitem value="Laboratorios" url="../admin/laboratoriosAdmin.xhtml" style="color: #000000; font-weight: normal; font-size: 12px;"/>
+                                    </p:submenu>
+                                </p:column>
+                            
+                        </p:submenu>  
+                        <p:menuitem value="Cerrar Sesión" url="/j_spring_security_logout" styleClass="itemmenu"/>                  
+                    </p:megaMenu>
+
+                </p:layoutUnit>
+
+                <p:layoutUnit id="bottom" position="south" size="60">
+                    
+                </p:layoutUnit>
+
+                <p:layoutUnit id="left" position="west" size="300" resizable="true" closable="false" collapsible="false" header="Menú Sanciones" minSize="200">
+                    <h:form>  
+              
+                    <p:growl id="messages" autoUpdate="true"/>  
+                    <p:panelMenu style="width:290px">  
+                        <p:submenu label="Opciones">  
+                            <p:menuitem oncomplete="dlgNuevo.show()" value="Sancionar" actionListener="#{sancionesBean.prepararSave()}" update=":formNuevo:dlgNuevo"/>  
+                        </p:submenu>                           
+                    </p:panelMenu> 
+                    </h:form>
+                </p:layoutUnit>
+
+
+            <p:layoutUnit id="center" position="center" style="border-color: white;">
+
+
+                <h:form id="formSanciones">
+                    <p:dataTable var="sancion" value="#{sancionesBean.sancionesVigentesList}" emptyMessage="No hay Usuarios Sancionados"
+                         paginator="true" rows="8"  paginatorPosition="bottom"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                    >  
+
+                        <f:facet name="header">  
+                            USUARIOS SANCIONADOS
+                        </f:facet>  
+  
+                        <p:column headerText="Nombres" sortBy="#{sancion.usuario.usNombres}" filterBy="#{sancion.usuario.usNombres}">  
+                            <h:outputText value="#{sancion.usuario.usNombres}" />  
+                        </p:column> 
+                        
+                        <p:column headerText="Apellidos" sortBy="#{sancion.usuario.usApellidos}" filterBy="#{sancion.usuario.usApellidos}">  
+                            <h:outputText value="#{sancion.usuario.usApellidos}" />  
+                        </p:column>  
+
+                        <p:column headerText="Desde" sortBy="#{sancion.saDesde}" filterBy="#{sancion.saDesde}">  
+                            <h:outputText value="#{sancion.fechaDesde()}" />
+                        </p:column> 
+                        
+                        <p:column headerText="Hasta" sortBy="#{sancion.saHasta}" filterBy="#{sancion.saHasta}">  
+                            <h:outputText value="#{sancion.fechaHasta()}" />  
+                        </p:column> 
+                        
+                        <p:column headerText="Motivo" sortBy="#{sancion.saMotivo}" filterBy="#{sancion.saMotivo}">  
+                            <h:outputText value="#{sancion.saMotivo}" />  
+                        </p:column> 
+
+                        <p:column headerText="Opciones" style="width:4%">  
+                            <p:commandButton  update=":formEditar:dlgEditar" oncomplete="dlgEditar.show()"  actionListener="#{sancionesBean.prepararUpdate(sancion.saId)}" icon="ui-icon-pencil" title="Editar"></p:commandButton>  
+                            <p:commandButton update=":formEliminar" actionListener="#{sancionesBean.prepararDelete(sancion.saId)}" oncomplete="dlgEliminar.show()" icon="ui-icon-circle-minus" title="Quitar"></p:commandButton>                 
+                        </p:column>                   
+                    </p:dataTable> 
+                </h:form>                    
+               
+            </p:layoutUnit>
+        </p:layout>
+
+        
+             <!-- Formulario de Nueva Sancion -->
+                <h:form id="formNuevo">
+                    <p:dialog header="Nueva Sanción" widgetVar="dlgNuevo" resizable="false" id="dlgNuevo" modal="true">    
+                        <p:growl id="growlNuevo" showDetail="true" sticky="true" />  
+                        <h:panelGrid id="pgNuevo" columns="3" cellpadding="4" style="margin:0 auto;">                            
+                            <h:outputLabel for="matricula" value="Matricula:  "/>  
+                            <p:inputText id="matricula" value="#{sancionesBean.matricula}" />  
+                            <p:commandButton value="Buscar" actionListener="#{sancionesBean.setUsuarioSancionado}" icon="ui-icon-search" update="nombre,unidadAcademica"/>  
+                           
+                            <h:outputLabel for="nombre" value="Nombre:"/> 
+                            <h:outputText value="#{sancionesBean.sanciones.usuario.usNombres} #{sancionesBean.sanciones.usuario.usApellidos}" id="nombre"/>                        
+                            <h:outputLabel for="nombreSpace"/> 
+                            
+                            <h:outputLabel for="unidadAcademica" value="Unidad Académica:"/> 
+                            <h:outputText value="#{sancionesBean.sanciones.usuario.usFacultad}" id="unidadAcademica"/> 
+                            <h:outputLabel for="unidadAcademicaSpace"/> 
+                            
+                            <h:outputLabel for="desde" value="Desde:"/> 
+                            <p:calendar value="#{sancionesBean.sanciones.saDesde}" id="calDesde" showOn="button" />
+                            <h:outputLabel for="desdeSpace"/> 
+                            
+                            <h:outputLabel for="hasta" value="Hasta:"/> 
+                            <p:calendar value="#{sancionesBean.sanciones.saHasta}" id="calHasta" showOn="button"/>  
+                            <h:outputLabel for="hastaSpace"/> 
+                            
+                            <h:outputLabel for="motivo" value="Motivo Sanción:"/> 
+                            <p:selectOneMenu value="#{sancionesBean.sanciones.saMotivo}" effect="fold" editable="true">  
+                                <f:selectItem itemLabel="Chatear" itemValue="Chatear" />  
+                                <f:selectItem itemLabel="Ver material ofensivo" itemValue="Ver material ofensivo" />  
+                                <f:selectItem itemLabel="No acatar las reglas" itemValue="No acatar las reglas" />  
+                            </p:selectOneMenu>    
+                            <h:outputLabel for="motivoSpace"/>
+                            
+                            <h:outputLabel for="observaciones" value="Observaciones:"/> 
+                            <h:outputLabel for="nombreSpace"/> 
+                            <h:outputLabel for="nombreSpace"/> 
+                        </h:panelGrid> 
+                        <p:inputTextarea value="#{sancionesBean.sanciones.saObservaciones}" rows="8" cols="50" queryDelay="750" minQueryLength="4" />
+                        <h:panelGrid id="pgButtonsNuevo" columns="3" cellpadding="4" style="margin:0 auto;">
+                            <h:outputLabel for="buttonSpace"/> 
+                            <p:commandButton  value="Sancionar" update=":formSanciones" actionListener="#{sancionesBean.save()}" oncomplete="dlgNuevo.hide()"  icon="ui-icon-check" ></p:commandButton>  
+                            <p:commandButton value="Cancelar" update=":formSanciones" oncomplete="dlgNuevo.hide()" icon="ui-icon-close" ></p:commandButton>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>  
+
+             
+             
+             
+             <!-- Formulario Editar -->
+                <h:form id="formEditar">
+                    <p:dialog header="Editar Sanción" widgetVar="dlgEditar" resizable="false" id="dlgEditar" modal="true">    
+                        <p:growl id="growlEditar" showDetail="true" sticky="true" />  
+                        <h:panelGrid id="pgEditar" columns="2" cellpadding="4" style="margin:0 auto;">  
+                            
+                            <h:outputLabel for="matricula" value="Matricula:  "/>  
+                            <h:outputText id="matricula" value="#{sancionesBean.sanciones.usuario.usMatricula}" />  
+                             
+                           
+                            <h:outputLabel for="nombre" value="Nombre:"/> 
+                            <h:outputText value="#{sancionesBean.sanciones.usuario.usNombres} #{sancionesBean.sanciones.usuario.usApellidos}" id="nombre"/>                        
+                            
+                            
+                            <h:outputLabel for="unidadAcademica" value="Unidad Académica:"/> 
+                            <h:outputText value="#{sancionesBean.sanciones.usuario.usFacultad}" id="unidadAcademica"/> 
+                            
+                            
+                            <h:outputLabel for="desde" value="Desde:"/> 
+                            <p:calendar value="#{sancionesBean.sanciones.saDesde}" id="calDesde" showOn="button" />
+                             
+                            
+                            <h:outputLabel for="hasta" value="Hasta:"/> 
+                            <p:calendar value="#{sancionesBean.sanciones.saHasta}" id="calHasta" showOn="button"/>  
+                            
+                            
+                            <h:outputLabel for="motivo" value="Motivo Sanción:"/> 
+                            <p:selectOneMenu value="#{sancionesBean.sanciones.saMotivo}" effect="fold" editable="true">  
+                                <f:selectItem itemLabel="Chatear" itemValue="Chatear" />  
+                                <f:selectItem itemLabel="Ver material ofensivo" itemValue="Ver material ofensivo" />  
+                                <f:selectItem itemLabel="No acatar las reglas" itemValue="No acatar las reglas" />  
+                            </p:selectOneMenu>                            
+                            
+                            <h:outputLabel for="observaciones" value="Observaciones:"/> 
+                            <h:outputLabel for="nombreSpace"/> 
+                            
+                        </h:panelGrid> 
+                        <p:inputTextarea value="#{sancionesBean.sanciones.saObservaciones}" rows="8" cols="42" queryDelay="750" minQueryLength="4" />
+                        <h:panelGrid id="pgButtonsNuevo" columns="3" cellpadding="4" style="margin:0 auto;">
+                            <h:outputLabel for="buttonSpace"/> 
+                            <p:commandButton  value="Actualizar" update=":formSanciones,growlEditar" actionListener="#{sancionesBean.update()}" oncomplete="dlgEditar.hide()"  icon="ui-icon-check" ></p:commandButton>  
+                            <p:commandButton value="Cancelar" update=":formSanciones" oncomplete="dlgEditar.hide()" icon="ui-icon-close" ></p:commandButton>
+                        </h:panelGrid>    
+                    </p:dialog>  
+                </h:form> 
+        <!-- Formulario Quitar -->
+                <h:form id="formEliminar">                          
+                    <p:growl id="growlEliminar" showDetail="true" sticky="true" />            
+                    <p:confirmDialog id="dlgEliminar" message="¿Está seguro que desea quitar esta sanción?" header="Confirmación" severity="alert" widgetVar="dlgEliminar">                    
+                        <p:commandButton id="btnSi" value="Si" update=":formSanciones,growlEliminar"  oncomplete="dlgEliminar.hide()"  
+                                         actionListener="#{sancionesBean.quitarSancion()}" />  
+                        <p:commandButton id="btnNo" value="No" onclick="dlgEliminar.hide()" type="button" />                     
+                    </p:confirmDialog>    
+                </h:form> 
+    </h:body>
+    </f:view>
+
+</html>
+

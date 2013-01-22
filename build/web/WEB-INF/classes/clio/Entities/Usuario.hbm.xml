@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 21-ene-2013 22:10:27 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="clio.Entities.Usuario" table="usuario" catalog="clio">
+        <id name="usId" type="java.lang.Long">
+            <column name="us_id" />
+            <generator class="identity" />
+        </id>
+        <property name="usNombres" type="string">
+            <column name="us_nombres" />
+        </property>
+        <property name="usApellidos" type="string">
+            <column name="us_apellidos" />
+        </property>
+        <property name="usEmail" type="string">
+            <column name="us_email" />
+        </property>
+        <property name="usFacultad" type="string">
+            <column name="us_facultad" />
+        </property>
+        <property name="usUsername" type="string">
+            <column name="us_username" />
+        </property>
+        <property name="usEnabled" type="string">
+            <column name="us_enabled" length="5" />
+        </property>
+        <property name="usCedula" type="string">
+            <column name="us_cedula" length="45" />
+        </property>
+        <property name="usPassword" type="string">
+            <column name="us_password" length="45" />
+        </property>
+        <property name="usMatricula" type="string">
+            <column name="us_matricula" length="45" />
+        </property>
+        <set name="sancioneses" inverse="true">
+            <key>
+                <column name="sa_us_id" />
+            </key>
+            <one-to-many class="clio.Entities.Sanciones" />
+        </set>
+        <set name="rolesUsuarioses" inverse="true">
+            <key>
+                <column name="us_id" />
+            </key>
+            <one-to-many class="clio.Entities.RolesUsuarios" />
+        </set>
+        <set name="conexions" inverse="true">
+            <key>
+                <column name="us_id" />
+            </key>
+            <one-to-many class="clio.Entities.Conexion" />
+        </set>
+    </class>
+</hibernate-mapping>

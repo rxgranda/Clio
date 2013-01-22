@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 21-ene-2013 22:10:27 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="clio.Entities.Laboratorio" table="laboratorio" catalog="clio">
+        <id name="labId" type="java.lang.Long">
+            <column name="lab_id" />
+            <generator class="identity" />
+        </id>
+        <property name="labNombre" type="string">
+            <column name="lab_nombre" length="100" unique="true" />
+        </property>
+        <property name="labDescripcion" type="string">
+            <column name="lab_descripcion" length="500" />
+        </property>
+        <property name="labMascarasubred" type="string">
+            <column name="lab_mascarasubred" length="16" />
+        </property>
+        <property name="labPuertaenlace" type="string">
+            <column name="lab_puertaenlace" length="16" />
+        </property>
+        <property name="labDnspreferido" type="string">
+            <column name="lab_dnspreferido" length="16" />
+        </property>
+        <property name="labDnsalternativo1" type="string">
+            <column name="lab_dnsalternativo1" length="16" />
+        </property>
+        <property name="labDnsalternativo2" type="string">
+            <column name="lab_dnsalternativo2" length="16" />
+        </property>
+        <property name="labCantFila" type="java.lang.Integer">
+            <column name="lab_cantFila" />
+        </property>
+        <property name="labCantColumna" type="java.lang.Integer">
+            <column name="lab_cantColumna" />
+        </property>
+        <property name="labEstado" type="string">
+            <column name="lab_estado" length="1" />
+        </property>
+        <property name="labTiempoUso" type="java.lang.Long">
+            <column name="lab_tiempoUso" />
+        </property>
+        <set name="pcs" inverse="true">
+            <key>
+                <column name="pc_lab_id" />
+            </key>
+            <one-to-many class="clio.Entities.Pc" />
+        </set>
+    </class>
+</hibernate-mapping>

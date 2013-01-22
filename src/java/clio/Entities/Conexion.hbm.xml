@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 21-ene-2013 22:10:27 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="clio.Entities.Conexion" table="conexion" catalog="clio">
+        <id name="coId" type="java.lang.Long">
+            <column name="co_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="usuario" class="clio.Entities.Usuario" fetch="select">
+            <column name="us_id" />
+        </many-to-one>
+        <many-to-one name="pc" class="clio.Entities.Pc" fetch="select">
+            <column name="pc_id" />
+        </many-to-one>
+        <property name="inicio" type="timestamp">
+            <column name="inicio" length="19" />
+        </property>
+        <property name="fin" type="timestamp">
+            <column name="fin" length="19" />
+        </property>
+    </class>
+</hibernate-mapping>

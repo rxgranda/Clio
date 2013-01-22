@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 21-ene-2013 22:10:27 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="clio.Entities.Sanciones" table="sanciones" catalog="clio">
+        <id name="saId" type="java.lang.Long">
+            <column name="sa_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="usuario" class="clio.Entities.Usuario" fetch="select">
+            <column name="sa_us_id" />
+        </many-to-one>
+        <property name="saDesde" type="timestamp">
+            <column name="sa_desde" length="19" />
+        </property>
+        <property name="saHasta" type="timestamp">
+            <column name="sa_hasta" length="19" />
+        </property>
+        <property name="saMotivo" type="string">
+            <column name="sa_motivo" length="50" />
+        </property>
+        <property name="saObservaciones" type="string">
+            <column name="sa_observaciones" />
+        </property>
+        <property name="saVigencia" type="string">
+            <column name="sa_vigencia" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="clio"/>
+  <table-filter match-name="roles_usuarios"/>
+  <table-filter match-name="sanciones"/>
+  <table-filter match-name="pc"/>
+  <table-filter match-name="laboratorio"/>
+  <table-filter match-name="modulo"/>
+  <table-filter match-name="usuario"/>
+  <table-filter match-name="conexion"/>
+</hibernate-reverse-engineering>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 21-ene-2013 22:10:27 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="clio.Entities.Modulo" table="modulo" catalog="clio">
+        <id name="modId" type="java.lang.Integer">
+            <column name="mod_id" />
+            <generator class="identity" />
+        </id>
+        <property name="modNombre" type="string">
+            <column name="mod_nombre" length="100" unique="true" />
+        </property>
+        <property name="modDescripcion" type="string">
+            <column name="mod_descripcion" length="500" />
+        </property>
+        <property name="modEstado" type="string">
+            <column name="mod_estado" length="1" />
+        </property>
+    </class>
+</hibernate-mapping>
