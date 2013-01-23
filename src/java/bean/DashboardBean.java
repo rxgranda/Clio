@@ -23,7 +23,13 @@ import org.primefaces.model.DefaultDashboardModel;
 
 /**
  *
- * @author Clio
+ * @author CLIO's Developer Team
+ * 
+ * Clase:       DashboardBean
+ * Descripción: Tiene como objetivo manejar el panel usado en la Administración de
+ *				laboratorios para situar las PCs en la ubicación que les corresponda.
+ * Última 
+ * modificación:22 de Enero del 2013
  */
 @Named(value = "dashboardBean")
 @SessionScoped

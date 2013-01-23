@@ -27,7 +27,13 @@ import javax.xml.ws.handler.MessageContext;
 
 /**
  *
- * @author Clio
+ * @author CLIO's Developer Team
+ * 
+ *Nombre:       ClioWebService
+ * Descripción: Servicio Web consumido por el cliente al momemto en que hace login/logout.
+ *				
+ * Última 
+ * modificación:22 de Enero del 2013
  */
 @WebService(serviceName = "ClioWebService")
 public class ClioWebService {

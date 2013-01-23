@@ -18,7 +18,13 @@ import javax.servlet.ServletContext;
 
 /**
  *
- * @author Manuel
+ * @author CLIO's Developer Team
+ * 
+ * Clase:       FormatoDocBean
+ * Descripción: Clase que formatea la exportación de reportes a diferentes 
+ *              formatos dependiendo.
+ * Última 
+ * modificación:22 de Enero del 2013
  */
 @Named(value = "formatoDocBean")
 @Dependent

@@ -6,9 +6,14 @@ package clio.beans;
 
 /**
  *
- * @author Roger
+ * @author CLIO's Developer Team
+ * 
+ * Clase:       MenuLabBean
+ * Descripción: Obtiene los Laboratorios Registrados y los muestra en el menú 
+ *              lateral de la sección de Laboratorios.
+ * Última 
+ * modificación:22 de Enero del 2013
  */
-
 import clio.Entities.Laboratorio;
 import clio.dao.LaboratorioDAO;
 import java.util.ListIterator;

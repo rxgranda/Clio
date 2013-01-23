@@ -16,7 +16,13 @@ import javax.inject.Named;
 
 /**
  *
- * @author Roger
+ * @author Manuel
+ * 
+ * Clase:       RolesUsuariosBean
+ * Descripción: Clase que utiliza RolesUsuariosDAO para realizar operaciones con
+ *              los datos en la Base de Datos.
+ * Última 
+ * modificación:22 de Enero del 2013
  */
 @Named(value = "rolBean")
 @SessionScoped

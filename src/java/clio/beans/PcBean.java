@@ -17,7 +17,13 @@ import javax.inject.Named;
 
 /**
  *
- * @author Roger
+ * @author Harry
+ * 
+ * Clase:       PCBean
+ * Descripción: Clase que utiliza PcDAO para dar tramiento a los datos 
+ *              en la Base.
+ * Última 
+ * modificación:22 de Enero del 2013
  */
 @Named(value = "pcBean")
 @SessionScoped

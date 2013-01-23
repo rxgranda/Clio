@@ -19,7 +19,13 @@ import javax.enterprise.context.ApplicationScoped;
 
 /**
  *
- * @author Roger
+ * @author CLIO's Developer Team
+ * 
+ * Clase:       PcClienteBean
+ * Descripción: Clase usada para obtener los parametros de renderización de la 
+ *              la vista de los laboratorios.
+ * Última 
+ * modificación:22 de Enero del 2013
  */
 @Named(value = "pcClienteBean")
 @ApplicationScoped
@@ -92,8 +98,4 @@ public class PcClienteBean {
         return clientesActivos;
     }
 
-   
-    
-    
-    
 }

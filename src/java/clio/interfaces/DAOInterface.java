@@ -9,7 +9,13 @@ import java.util.List;
 
 /**
  *
- * @author Clio
+ * @author CLIO's Developer Team
+ * 
+ * Interface:       DAOInterface
+ * Descripción: 	Declara las operaciones que deben implementar las clases DAO
+					para manejar la persisntencia con los datos de en la base.
+ * Última 
+ * modificación:22 de Enero del 2013
  */
 public interface DAOInterface {
     public void save(Object lab) throws Exception;    

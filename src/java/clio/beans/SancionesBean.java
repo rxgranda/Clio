@@ -18,7 +18,14 @@ import javax.inject.Named;
 
 /**
  *
- * @author Roger
+ * @author CLIO's Developer Team
+ * 
+ * Clase:       SancionesBean
+ * Descripción: Clase que utiliza SancionesDAO para realizar operaciones con
+ *              los datos en la Base de Datos, asi también, maneja el estado de
+ *              usuario dependiendo de si tiene una sanción vigente o no.
+ * Última 
+ * modificación:22 de Enero del 2013
  */
 @Named(value = "sancionesBean")
 @SessionScoped
@@ -69,8 +76,7 @@ public class SancionesBean implements Serializable, EntitiesBeanInterface {
     public void save(){
         UsuarioBean usbean = new UsuarioBean();
         sanciones.setSaVigencia("Vigente");
-        FacesContext context = FacesContext.getCurrentInstance();    
-        
+        FacesContext context = FacesContext.getCurrentInstance();            
         
         try {
             ins.save(sanciones);   

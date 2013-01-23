@@ -15,7 +15,13 @@ import org.hibernate.Query;
 
 /**
  *
- * @author Roger
+ * @author CLIO's Developer Team
+ * 
+ * Clase:       PcDAO
+ * Descripción: Implementa DAOInterface esto hace que entre otras cosas pueda manejar la persistencia 
+				con la base de datos.
+ * Última 
+ * modificación:22 de Enero del 2013
  */
 public class PcDAO implements DAOInterface{
     

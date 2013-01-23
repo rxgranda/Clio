@@ -16,7 +16,13 @@ import javax.inject.Named;
 
 /**
  *
- * @author Roger
+ * @author CLIO's Developer Team
+ * 
+ * Clase:       UsuarioBean
+ * Descripción: Clase que utiliza UsuarioDAO para realizar operaciones con
+ *              los datos en la Base de Datos.
+ * Última 
+ * modificación:22 de Enero del 2013
  */
 @Named(value = "usuarioBean")
 @SessionScoped
@@ -28,7 +34,6 @@ public class UsuarioBean implements Serializable, EntitiesBeanInterface {
     UsuarioDAO ins=new UsuarioDAO();
     private Usuario usuario;
     private List<Usuario> usuariosList;
-    
     
     public UsuarioBean() {
          usuario= new Usuario();         
@@ -96,6 +101,11 @@ public class UsuarioBean implements Serializable, EntitiesBeanInterface {
         usuariosList=lista.list();
         return usuariosList;
      }      
+     /**
+      * 
+      * @param matricula
+      * @return 
+      */
      public Usuario searchUser(String matricula){
         List<Usuario> lista = getUsuariosList();
 

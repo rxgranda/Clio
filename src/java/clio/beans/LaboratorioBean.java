@@ -21,7 +21,13 @@ import javax.inject.Named;
 
 /**
  *
- * @author Roger
+ * @author CLIO's Developer Team
+ * 
+ * Clase:       LaboratorioBean
+ * Descripción: Clase que utiliza LaboratorioDAO para dar tratamiento de los
+ *              latos de laboratorios en la Base.
+ * Última 
+ * modificación:22 de Enero del 2013
  */
 @Named(value = "laboratorioBean")
 @SessionScoped

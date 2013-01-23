@@ -15,6 +15,17 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+/**
+ *
+ * @author CLIO's Developer Team
+ * 
+ * Clase:       AuthenticationBean
+ * Descripción: Clase que obtiene los parametros ingresados para iniciar sesión de 
+				administrador y hace llamdo a String Security para que los autentique.
+ * Última 
+ * modificación:22 de Enero del 2013
+ */
+
 @Named("authenticationbean")
 @SessionScoped
 public class AuthenticationBean implements Serializable

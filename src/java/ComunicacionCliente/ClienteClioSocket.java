@@ -14,7 +14,13 @@ import java.net.UnknownHostException;
 
 /**
  *
- * @author Roger
+ * @author CLIO's Developer Team
+ * 
+ * Nombre:       ClienteClioSocket
+ * Descripción:  Maneja el envio de sockets al cliente con los comandos ejecutados 
+ *				 desde la aplicación administrador.
+ * Última 
+ * modificación:22 de Enero del 2013
  */
 public class ClienteClioSocket {
 

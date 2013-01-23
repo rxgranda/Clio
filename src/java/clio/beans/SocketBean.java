@@ -21,7 +21,13 @@ import javax.inject.Named;
 
 /**
  *
- * @author Roger
+ * @author CLIO's Developer Team
+ * 
+ * Clase:       SocketBean
+ * Descripción: Clase que maneja el envio de mensajes hacia los clientes por 
+ *              medio del uso de Sockets.
+ * Última 
+ * modificación:22 de Enero del 2013
  */
 @Named(value = "socketBean")
 @SessionScoped
@@ -63,9 +69,7 @@ public class SocketBean implements Serializable {
            }catch(Exception e){
              e.printStackTrace();
             context.addMessage(null, new FacesMessage("¡Error!", "No se pudo enviar la órden"));                        
-           }
-       
-      
+           }  
    }
 
    public void enviarMensajeTodos(){
@@ -93,9 +97,7 @@ public class SocketBean implements Serializable {
                 }
            }
        }
-      
         context.addMessage(null, new FacesMessage("¡Exito!", "Se han enviado los mensajes a los PCs"));                        
-       
    }
    
    public void apagarTodos(){
@@ -119,12 +121,9 @@ public class SocketBean implements Serializable {
                 sender.start();
                 }catch(Exception e){
                     System.out.println("Error al enviar mensaje a:"+currentip);
-                }
-           
+                } 
        }
-      
         context.addMessage(null, new FacesMessage("¡Exito!", "Se han enviado la órden a los PCs"));                        
-       
    }
     public String getMensaje() {
         return mensaje;

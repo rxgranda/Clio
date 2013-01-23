@@ -13,7 +13,13 @@ import javax.enterprise.context.Dependent;
 
 /**
  *
- * @author Manuel
+ * @author CLIO's Developer Team
+ * 
+ * Clase:       TimeBean
+ * Descripción: Clase que da tratamiento a las fechas ingresadas, por ejemplo, 
+ *              dar obtener las fechas relacionadas a cada semestre académico.
+ * Última 
+ * modificación:22 de Enero del 2013
  */
 @Named(value = "timeBean")
 @Dependent

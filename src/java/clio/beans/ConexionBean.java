@@ -16,7 +16,13 @@ import javax.inject.Named;
 
 /**
  *
- * @author Roger
+ * @author CLIO's Developer Team
+ * 
+ * Clase:       ConexionBean
+ * Descripción: Clase que utiliza ConexionDAO para dar tratamiento a los datos
+ *              de Conexión en la Base.
+ * Última 
+ * modificación:22 de Enero del 2013
  */
 @Named(value = "conexionBean")
 @SessionScoped

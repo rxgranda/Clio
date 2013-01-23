@@ -19,9 +19,19 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;  
 import javax.inject.Named;
 import org.primefaces.event.DragDropEvent;  
+
+/**
+ *
+ * @author CLIO's Developer Team
+ * 
+ * Clase:       DragBean
+ * Descripción: Tiene como objetivo manejar el drag&drop usado en la Administración de
+ *				laboratorios para situar las PCs en la ubicación que les corresponda.
+ * Última 
+ * modificación:22 de Enero del 2013
+ */
 @Named(value = "dragBean")
-@SessionScoped  
-  
+@SessionScoped    
 public class DragBean implements Serializable {  
   
     private List<Pc> pcs;  

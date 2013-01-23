@@ -16,7 +16,7 @@ import javax.inject.Named;
 
 /**
  *
- * @author Roger
+ * @author CLIO's Developer Team
  */
 @Named(value = "moduloBean")
 @SessionScoped

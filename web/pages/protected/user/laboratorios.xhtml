@@ -98,7 +98,7 @@
                                  
                                  <c:forEach items="${laboratorioBean.laboratoriosList}" var="lab"> 
                                      <p:submenu label="#{lab.labNombre}">                                            
-                                         <p:menuitem value="Ver Laboratorio"  update=":form"   >
+                                         <p:menuitem value="Ver Laboratorio" onclick="jQuery('#welcome').hide();" update=":form"   >
                                             <f:actionListener binding="#{laboratorioBean.prepararUpdate(lab.labId)}" />
                                             <f:actionListener binding="#{dashboardBean.contruir()}" />
                                          </p:menuitem> 
@@ -121,8 +121,9 @@
 
 
                     <p:layoutUnit id="center" position="center" style="border-color: white;">
-                       
-                          
+                        <h:form id="welcome" style="display:block;"> 
+                              <p:graphicImage value="../../../images/redBienvenida.png" style="width: 400px; height: 350px ; margin-left: 300px; margin-top: 100px;" />  
+                        </h:form>
                         <h:form id="form" >  
   
                 <p:growl id="growl" showDetail="true" />  
