@@ -17,10 +17,10 @@ import clio.util.HibernateUtil;
  * @author CLIO's Developer Team
  * 
  * Clase:       RolesUsuariosDAO
- * Descripción: Implementa DAOInterface esto hace que entre otras cosas pueda manejar la persistencia 
+ * Descripcion: Implementa DAOInterface esto hace que entre otras cosas pueda manejar la persistencia 
 				con la base de datos.
- * Última 
- * modificación:22 de Enero del 2013
+ * ultima 
+ * modificacion:22 de Enero del 2013
  */
 public class RolesUsuariosDAO implements DAOInterface{
     

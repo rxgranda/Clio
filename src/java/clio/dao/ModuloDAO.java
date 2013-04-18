@@ -17,10 +17,10 @@ import clio.util.HibernateUtil;
  * @author CLIO's Developer Team
  * 
  * Clase:       ModuloDAO
- * Descripción: Implementa DAOInterface esto hace que entre otras cosas pueda manejar la persistencia 
+ * Descripcion: Implementa DAOInterface esto hace que entre otras cosas pueda manejar la persistencia 
 				con la base de datos.
- * Última 
- * modificación:22 de Enero del 2013
+ * ultima 
+ * modificaciï¿½n:22 de Enero del 2013
  */
 public class ModuloDAO implements DAOInterface{
     
