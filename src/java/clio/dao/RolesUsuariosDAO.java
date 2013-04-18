@@ -36,7 +36,7 @@ public class RolesUsuariosDAO implements DAOInterface{
         }catch(Exception e){
             t=session.beginTransaction();
             t.rollback();
-            throw new Exception("");
+            throw  e;
         }     
     }
 
@@ -60,7 +60,9 @@ public class RolesUsuariosDAO implements DAOInterface{
         Transaction t ;
         try{
             t= session.beginTransaction();
-            session.delete(roles);
+                Object flag= session.merge(roles);
+            session.delete(flag);
+          
             t.commit();
         }catch(Exception e){
             t=session.beginTransaction();

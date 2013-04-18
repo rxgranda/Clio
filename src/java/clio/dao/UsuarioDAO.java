@@ -5,6 +5,7 @@
 package clio.dao;
 
 
+import clio.Entities.RolesUsuarios;
 import clio.interfaces.DAOInterface;
 import clio.Entities.Usuario;
 import java.util.List;
@@ -40,7 +41,30 @@ public class UsuarioDAO implements DAOInterface{
             throw new Exception("");
         }     
     }
-
+    public void save(Object user, String Rol) throws Exception {
+           Usuario usuario=(Usuario)user;
+           RolesUsuariosDAO rolDao= new RolesUsuariosDAO();
+       
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction t ;
+            try{
+                t= session.beginTransaction();
+                
+                session.save(usuario);               
+                t.commit();
+                 
+                
+            }catch(Exception e){
+                t=session.beginTransaction();
+                t.rollback();
+                throw e;
+            } 
+            RolesUsuarios rol= new RolesUsuarios();
+            rol.setRuAuthority(Rol);
+            rol.setUsuario(usuario);
+            rolDao.save(rol);
+            
+        }
     @Override
     public Usuario getByID(long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -61,7 +85,13 @@ public class UsuarioDAO implements DAOInterface{
         Transaction t ;
         try{
             t= session.beginTransaction();
-            session.delete(usuario);
+                 RolesUsuariosDAO rolDao= new RolesUsuariosDAO();
+                 RolesUsuarios rol=usuario.getRolesUsuarioses().iterator().next();
+                 rolDao.remove(rol);
+              Object flag= session.merge(usuario);
+            session.delete(flag);
+            
+            
             t.commit();
         }catch(Exception e){
             t=session.beginTransaction();
@@ -84,6 +114,26 @@ public class UsuarioDAO implements DAOInterface{
             t.rollback();
             throw new Exception("");
         }     
+    }   
+     
+    public void update(Object user, String Rol) throws Exception {
+         Usuario usuario=(Usuario)user;
+           RolesUsuariosDAO rolDao= new RolesUsuariosDAO();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction t ;
+        try{
+            t= session.beginTransaction();
+            session.merge(usuario);
+            t.commit();
+        }catch(Exception e){
+            t=session.beginTransaction();
+            t.rollback();
+            throw new Exception("");
+        }     
+        RolesUsuarios rol= usuario.getRolesUsuarioses().iterator().next();
+            
+            rol.setRuAuthority(Rol);
+            rolDao.update(rol);
     }   
      public Usuario getUsuarioByUsername(String username){
         Session session = HibernateUtil.getSessionFactory().openSession();

@@ -54,7 +54,7 @@
                                 </p:submenu>
                             </p:column>                            
                         </p:submenu>  
-                        <p:submenu label="Administrar" styleClass="itemmenu" style="margin-left: 10px;">
+                        <p:submenu label="Administrar"   rendered="#{facesContext.externalContext.isUserInRole('ROLE_ADMIN')}" styleClass="itemmenu" style="margin-left: 10px;">
                             
                                 <p:column>
                                     <p:submenu label="Opciones">

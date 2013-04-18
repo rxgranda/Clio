@@ -60,7 +60,9 @@ public class SancionesDAO implements DAOInterface{
         Transaction t ;
         try{
             t= session.beginTransaction();
-            session.delete(sancion);
+             Object flag= session.merge(sancion);
+            session.delete(flag);
+            
             t.commit();
         }catch(Exception e){
             t=session.beginTransaction();

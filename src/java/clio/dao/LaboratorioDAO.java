@@ -59,9 +59,10 @@ public class LaboratorioDAO implements DAOInterface{
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction t ;
         try{
-            System.out.println(laboratorio.getLabId());
+         
             t= session.beginTransaction();
-            session.delete(laboratorio);
+            Object flag= session.merge(laboratorio);
+            session.delete(flag);
             t.commit();
         }catch(Exception e){
             e.printStackTrace();

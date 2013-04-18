@@ -31,23 +31,49 @@ public class UsuarioBean implements Serializable, EntitiesBeanInterface {
     /**
      * Creates a new instance of UsuarioBean
      */
+    private  String role_user="ROLE_USER";
+
+    public String getRole_user() {
+        return role_user;
+    }
+
+    public void setRole_user(String role_user) {
+        this.role_user = role_user;
+    }
+
+  
+   
     UsuarioDAO ins=new UsuarioDAO();
     private Usuario usuario;
     private List<Usuario> usuariosList;
+    private String rol;
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
+  
     
     public UsuarioBean() {
-         usuario= new Usuario();         
+         usuario= new Usuario();  
+        
     }
     
     @Override
     public void prepararSave(){
         usuario=new Usuario();
+         rol=null;
     }
     
     @Override
     public void prepararUpdate( long id){
         usuario=null;
         usuario=ins.getByID(id);
+        rol=usuario.getRolesUsuarioses().iterator().next().getRuAuthority();
     }
     
     @Override
@@ -56,13 +82,14 @@ public class UsuarioBean implements Serializable, EntitiesBeanInterface {
     }
     
     @Override
-    public void save(){
+    public void save() {
         FacesContext context = FacesContext.getCurrentInstance();            
         try {
-            ins.save(usuario);             
+            ins.save(usuario,rol);             
             context.addMessage(null, new FacesMessage("¡Éxito!", "Usuario creado exitosamente"));
         } catch (Exception ex) {
-             context.addMessage(null, new FacesMessage("¡Error!", "Ha ocurrido un error al guardar"));   
+             context.addMessage(null, new FacesMessage("¡Error!", "Ha ocurrido un error al guardar")); 
+          
         }
      }
     
@@ -70,7 +97,7 @@ public class UsuarioBean implements Serializable, EntitiesBeanInterface {
      public void update(){
         FacesContext context = FacesContext.getCurrentInstance();            
         try {
-            ins.update(usuario);             
+            ins.update(usuario,rol);             
             context.addMessage(null, new FacesMessage("¡Éxito!", "Usuario modificado exitosamente"));
         }catch (Exception ex) {
             context.addMessage(null, new FacesMessage("¡Error!", "Ha ocurrido un error al guardar"));

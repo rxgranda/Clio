@@ -24,6 +24,23 @@ public class Usuario  implements java.io.Serializable {
      private Set<Sanciones> sancioneses = new HashSet<Sanciones>(0);
      private Set<RolesUsuarios> rolesUsuarioses = new HashSet<RolesUsuarios>(0);
      private Set<Conexion> conexions = new HashSet<Conexion>(0);
+     private String adm;
+
+    public String getAdm() {
+        if(this.getRolesUsuarioses().iterator().next().getRuAuthority().equals("ROLE_ADMIN"))
+            
+            adm="ROLE_ADMIN";
+            
+        else            
+            adm= "ROLE_USER";
+        return adm;
+    }
+
+    public void setAdm(String adm) {
+        
+    }
+
+  
 
     public Usuario() {
     }

@@ -65,7 +65,9 @@ public class ConexionDAO implements DAOInterface {
         Transaction t;
         try {
             t = session.beginTransaction();
-            session.delete(conexion);
+            Object flag= session.merge(conexion);
+            session.delete(flag);
+       
             t.commit();
         } catch (Exception e) {
             t = session.beginTransaction();

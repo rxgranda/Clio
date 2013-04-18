@@ -61,7 +61,10 @@ public class PcDAO implements DAOInterface{
         Transaction t ;
         try{
             t= session.beginTransaction();
-            session.delete(pc);
+              Object flag= session.merge(pc);
+            session.delete(flag);
+     
+           
             t.commit();
         }catch(Exception e){
             t=session.beginTransaction();

@@ -60,7 +60,9 @@ public class ModuloDAO implements DAOInterface{
         Transaction t ;
         try{
             t= session.beginTransaction();
-            session.delete(modulo);
+             Object flag= session.merge(modulo);
+            session.delete(flag);
+     
             t.commit();
         }catch(Exception e){
             t=session.beginTransaction();
