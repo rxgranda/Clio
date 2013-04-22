@@ -141,10 +141,10 @@ public class ClioWebService {
         while(itr.hasNext()){
             Laboratorio lb=itr.next();
             if(itr.hasNext()) {
-                response+=lb.getLabId()+"&&"+lb.getLabNombre()+"|";
+                response+=lb.getLabId()+"$"+lb.getLabNombre()+"|";
             }
             else {
-                response+=lb.getLabId()+"&&"+lb.getLabNombre();
+                response+=lb.getLabId()+"$"+lb.getLabNombre();
             }
         }
         return response;

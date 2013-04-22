@@ -234,7 +234,13 @@
                     <p:inputText value="#{laboratorioBean.laboratorio.labCantColumna}" required="true" requiredMessage="Filas requeridas"/> 
                     <h:outputText value="Filas:*" />  
                     <p:inputText  value="#{laboratorioBean.laboratorio.labCantFila}" required="true" requiredMessage="Columnas Requeridas"/>  
-                    <h:outputText value="* Campos Requeridos "  style="color: red"></h:outputText>  
+                     <h:outputText value="Tiempo de Uso (Milisegundos): *" />  
+                     <p:selectOneMenu value="#{laboratorioBean.laboratorio.labTiempoUso}" required=" true" requiredMessage="Estado requerido">  
+                        <f:selectItem itemLabel="Sin limite de tiempo" itemValue="-100" />  
+                        <f:selectItem itemLabel="30 Minutos" itemValue="1800000" />  
+                        <f:selectItem itemLabel="1 Hora" itemValue="3600000" />
+                         <f:selectItem itemLabel="3 Horas" itemValue="10800000" />    <!--El tiempo va en milisegundos -->
+                    </p:selectOneMenu>                          <h:outputText value="* Campos Requeridos "  style="color: red"></h:outputText>  
                     <br />
                     <p:commandButton  value="Guardar" update=":frmLaboratorios,growlNuevo" actionListener="#{laboratorioBean.save()}" oncomplete="dlgNuevo.hide()" icon="ui-icon-search" ></p:commandButton>  
                     <p:commandButton value="Cancelar" update=":frmLaboratorios" oncomplete="dlgNuevo.hide()" icon="ui-icon-search" ></p:commandButton>                             
@@ -272,6 +278,13 @@
                     <p:inputText value="#{laboratorioBean.laboratorio.labCantColumna}" required="true" requiredMessage="Filas requeridas"/> 
                     <h:outputText value="Filas:*" />  
                     <p:inputText  value="#{laboratorioBean.laboratorio.labCantFila}" required="true" requiredMessage="Columnas Requeridas"/>  
+                     <h:outputText value="Tiempo de Uso (Milisegundos): *" />  
+                     <p:selectOneMenu value="#{laboratorioBean.laboratorio.labTiempoUso}" required=" true" requiredMessage="Estado requerido">  
+                        <f:selectItem itemLabel="Sin limite de tiempo" itemValue="-100" />  
+                        <f:selectItem itemLabel="30 Minutos" itemValue="1800000" />  
+                        <f:selectItem itemLabel="1 Hora" itemValue="3600000" />
+                         <f:selectItem itemLabel="3 Horas" itemValue="10800000" />    <!--El tiempo va en milisegundos -->
+                    </p:selectOneMenu>
                     <h:outputText value="* Campos Requeridos "  style="color: red"></h:outputText>  
                     <br/> <p:commandButton  value="Actualizar" update=":frmLaboratorios,growlEditar" actionListener="#{laboratorioBean.update()}" oncomplete="dlgEditar.hide()" icon="ui-icon-search" ></p:commandButton>  
                         <p:commandButton value="Cancelar" update=":frmLaboratorios" oncomplete="dlgEditar.hide()" icon="ui-icon-search" ></p:commandButton>                             
