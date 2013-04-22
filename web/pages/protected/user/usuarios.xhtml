@@ -124,7 +124,7 @@
 
                         <p:column headerText="Opciones" style="width:4%">  
                             <p:commandButton  update=":formEditar:dlgEditar" oncomplete="dlgEditar.show()"  actionListener="#{usuarioBean.prepararUpdate(usuario.usId)}" icon="ui-icon-pencil" title="Editar"></p:commandButton>  
-                            <p:commandButton  rendered="#{usuario.adm eq usuarioBean.role_user }" update=":formEliminar" actionListener="#{usuarioBean.prepararDelete(usuario.usId)}" oncomplete="dlgEliminar.show()" icon="ui-icon-trash" title="Eliminar"></p:commandButton>                 
+                            <p:commandButton  rendered="#{facesContext.externalContext.isUserInRole('ROLE_ADMIN')}" update=":formEliminar" actionListener="#{usuarioBean.prepararDelete(usuario.usId)}" oncomplete="dlgEliminar.show()" icon="ui-icon-trash" title="Eliminar"></p:commandButton>                 
                         </p:column>                   
                     </p:dataTable> 
                 </h:form>
