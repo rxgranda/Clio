@@ -120,7 +120,7 @@ public class ClioWebService {
         user.setUsMatricula(matricula);
         user.setUsUsername(username);                        
         try {      
-            ins.save(user);
+            ins.save(user, "ROLE_USER");
         } catch (Exception ex) {
            return false;
         }
@@ -168,7 +168,10 @@ public class ClioWebService {
             pc.setPcNombre(nombrePC);
             pc.setPcEstado("1");
             pc.setPcIp(ip);
-            ins.save(pc);
+            if(ins.PcByIP(ip)==null){                
+                ins.save(pc);
+            }else
+                return false;
         }catch(Exception e){
             return false;
         }
