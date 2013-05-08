@@ -119,9 +119,8 @@
                         <p:column headerText="Unidad Academica" sortBy="#{usuario.usFacultad}" filterBy="#{usuario.usFacultad}">  
                             <h:outputText value="#{usuario.usFacultad}" />  
                         </p:column> 
+                       
                         
-                        
-
                         <p:column headerText="Opciones" style="width:4%">  
                             <p:commandButton  update=":formEditar:dlgEditar" oncomplete="dlgEditar.show()"  actionListener="#{usuarioBean.prepararUpdate(usuario.usId)}" icon="ui-icon-pencil" title="Editar"></p:commandButton>  
                             <p:commandButton  rendered="#{facesContext.externalContext.isUserInRole('ROLE_ADMIN')}" update=":formEliminar" actionListener="#{usuarioBean.prepararDelete(usuario.usId)}" oncomplete="dlgEliminar.show()" icon="ui-icon-trash" title="Eliminar"></p:commandButton>                 
@@ -161,9 +160,12 @@
                             </p:selectOneMenu> 
                              <h:outputText value="Tipo de Usuario:" />  
                             <p:selectOneMenu value="#{usuarioBean.rol}" required="true" effect="fold">  
-                                <f:selectItem itemLabel="Usuario del sistema" itemValue="ROLE_USER" />  
-                                <f:selectItem  rendered="#{facesContext.externalContext.isUserInRole('ROLE_ADMIN')}" itemLabel="Administrador del sistema" itemValue="ROLE_ADMIN" />
-                                                       
+                                <c:if test="#{facesContext.externalContext.isUserInRole('ROLE_ADMIN')}" >
+                                    <f:selectItem rendered="" itemLabel="Administrador de Laboratorio" itemValue="ROLE_ADMIN" />                                          
+                                </c:if>                                
+                                <f:selectItem itemLabel="Ayudante de Laboratorio" itemValue="ROLE_USER" />  
+                                <f:selectItem itemLabel="Usuario de Laboratorio" itemValue="ROLE_CLIENT" />  
+                                                    
                             </p:selectOneMenu> 
                             <p:commandButton  value="Guardar" update=":formUsuarios,growlNuevo" actionListener="#{usuarioBean.save()}" oncomplete="dlgNuevo.hide()"  icon="ui-icon-disk" ></p:commandButton>  
                             <p:commandButton value="Cancelar" update=":formUsuarios" oncomplete="dlgNuevo.hide()" icon="ui-icon-close" ></p:commandButton>                             
@@ -189,18 +191,13 @@
                                 <h:outputText value="Unidad Académica:" />  
                                 <p:inputText value="#{usuarioBean.usuario.usFacultad}"/>
                                  <h:outputText value="Tipo de Usuario:" />  
-                                 <p:selectOneMenu value="#{usuarioBean.rol}" required="true" effect="fold">  
-                                     <c:if test="${usuarioBean.rol != usuarioBean.role_user }" >
-                                       <f:selectItem  rendered="#{facesContext.externalContext.isUserInRole('ROLE_ADMIN')}" itemLabel="Administrador del sistema" itemValue="ROLE_ADMIN" />
-                                       <f:selectItem  itemLabel="Usuario del sistema" itemValue="ROLE_USER" />  
-                                        
-                                    </c:if>   
-                                     <c:if test="${usuarioBean.rol eq usuarioBean.role_user }" >
-                                       <f:selectItem itemLabel="Usuario del sistema" itemValue="ROLE_USER" />  
-                                         <f:selectItem  rendered="#{facesContext.externalContext.isUserInRole('ROLE_ADMIN')}" itemLabel="Administrador del sistema" itemValue="ROLE_ADMIN" />
-                                       
-                                        
-                                    </c:if>      
+                                 <p:selectOneMenu value="#{usuarioBean.rol}" rendered="#{!(facesContext.externalContext.isUserInRole('ROLE_USER') and usuarioBean.rol eq 'ROLE_ADMIN')}" required="true" effect="fold">  
+                                  
+                                       <f:selectItem  itemLabel="Ayudante de Laboratorio" itemValue="ROLE_USER" />  
+                                       <f:selectItem itemLabel="Usuario de Laboratorio" itemValue="ROLE_CLIENT" /> 
+                                       <c:if test="#{facesContext.externalContext.isUserInRole('ROLE_ADMIN')}" >
+                                           <f:selectItem rendered="" itemLabel="Administrador de Laboratorio" itemValue="ROLE_ADMIN" />                                          
+                                       </c:if>   
                             </p:selectOneMenu> 
 
 

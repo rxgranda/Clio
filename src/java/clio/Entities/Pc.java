@@ -99,6 +99,23 @@ public class Pc  implements java.io.Serializable {
         this.conexions = conexions;
     }
 
+    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Pc other = (Pc) obj;
+        if (this.pcId != other.pcId && (this.pcId == null || !this.pcId.equals(other.pcId))) {
+            return false;
+        }
+        return true;
+    }
+
 
 
 
