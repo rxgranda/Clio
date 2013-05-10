@@ -9,6 +9,7 @@ import clio.Entities.Conexion;
 import clio.Entities.Laboratorio;
 import clio.Entities.Pc;
 import clio.dao.ConexionDAO;
+import clio.dao.PcDAO;
 import clio.interfaces.EntitiesBeanInterface;
 import java.io.Serializable;
 import java.util.Iterator;
@@ -62,6 +63,14 @@ public class SocketBean implements Serializable {
        FacesContext context = FacesContext.getCurrentInstance();    
        
            try{
+              // System.out.println(ip);
+               PcDAO ins= new PcDAO();
+               Pc pc=ins.PcByIP(ip);
+               System.out.println(pc.getPcId());
+               if(PcClienteBean.existePcActiva(pc.getPcId())){
+                   PcClienteBean.ElimiarConexion(ip);
+                   System.out.println(ip); 
+               }
             ClienteClioSocket obj= new ClienteClioSocket(ip,"apagpc");
             
             obj.Ejecutar();

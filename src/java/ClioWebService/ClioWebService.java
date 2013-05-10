@@ -120,7 +120,7 @@ public class ClioWebService {
         user.setUsMatricula(matricula);
         user.setUsUsername(username);                        
         try {      
-            ins.save(user, "ROLE_USER");
+            ins.save(user, "ROLE_CLIENT");
         } catch (Exception ex) {
            return false;
         }

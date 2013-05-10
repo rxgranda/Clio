@@ -8,6 +8,7 @@ package clio.beans;
 import clio.Entities.Conexion;
 import clio.Entities.Pc;
 import clio.dao.ConexionDAO;
+import clio.dao.PcDAO;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -82,8 +83,25 @@ public class PcClienteBean {
         ListIterator <Pc> iterador=pcActivas.listIterator();
         while(iterador.hasNext()){
             Pc pc2=iterador.next();
-            if (pc2.equals(pc))
+            if (pc2.getPcId().equals(pc.getPcId()))
                 return true;
+        }
+        return false;
+        
+    }
+    
+     public static boolean existePcActiva(Long id){
+        PcDAO ins= new PcDAO();
+        Pc pc=ins.getByID(id);
+      
+        ListIterator <Conexion> iterador=clientesActivos.listIterator();
+        
+        while(iterador.hasNext()){
+            Pc pc2=iterador.next().getPc();
+         
+            if (pc2.getPcId().equals(pc.getPcId())) {
+                return true;
+            }
         }
         return false;
         
