@@ -146,6 +146,8 @@
                             <p:inputText value="#{usuarioBean.usuario.usApellidos}"/>
                             <h:outputText value="Usuario ESPOL:" />  
                             <p:inputText value="#{usuarioBean.usuario.usUsername}"/>
+                             <h:outputText value="Password:" />  
+                             <p:password value="#{usuarioBean.usuario.usPassword}" />
                             <h:outputText value="Unidad Académica:" />  
                             <p:selectOneMenu value="#{usuarioBean.usuario.usFacultad}" effect="fold" editable="true">  
                                 <f:selectItem itemLabel="ICM" itemValue="ICM" />  
@@ -188,6 +190,8 @@
                                 <p:inputText value="#{usuarioBean.usuario.usApellidos}"/>
                                 <h:outputText value="Usuario ESPOL:" />  
                                 <p:inputText value="#{usuarioBean.usuario.usUsername}"/>
+                              <h:outputText value="Password:" />  
+                             <p:password value="#{usuarioBean.usuario.usPassword}" />
                                 <h:outputText value="Unidad Académica:" />  
                                 <p:inputText value="#{usuarioBean.usuario.usFacultad}"/>
                                  <h:outputText value="Tipo de Usuario:" />  
